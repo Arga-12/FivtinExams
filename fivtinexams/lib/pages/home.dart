@@ -7,7 +7,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Beranda'),
+        title: const Text('Beranda Di Update!!!!'),
         backgroundColor: Colors.blue,
       ),
       body: Center(
