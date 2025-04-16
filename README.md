@@ -4,7 +4,7 @@ Aplikasi ini bertujuan untuk mempermudah siswa dalam mengakses ujian dan materi 
 
 ---
 
-## ?? Preview Aplikasi
+## Preview Aplikasi
 
 <div align="center">
   <img src="dump/hakase-key.gif" alt="Preview FivtinExams" width="500"/>
