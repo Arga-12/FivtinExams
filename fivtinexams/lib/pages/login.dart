@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'beranda.dart'; // Pastikan sudah import BerandaPage
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -11,8 +13,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   
   // Username dan Password yang valid
-  final String validUsername = 'user123';
-  final String validPassword = 'password123';
+  final String validUsername = 'Arga';
+  final String validPassword = 'Arga';
   
   // Error messages
   String? _usernameError;
@@ -72,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
       );
       
       // Navigasi ke beranda setelah login sukses
-      Future.delayed(Duration(milliseconds: 500), () {
+      Future.delayed(Duration(milliseconds: 300), () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => BerandaPage()),
@@ -106,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 50),
+                  SizedBox(height: 100),
                   
                   // Title
                   Text(
@@ -117,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   
-                  SizedBox(height: 150),
+                  SizedBox(height: 20),
                   
                   // Username field
                   Text(
@@ -138,6 +140,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: TextField(
                       controller: _usernameController,
+                      textInputAction: TextInputAction.next,
+                      onSubmitted: (_) => _validateLogin(),
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
@@ -186,6 +190,8 @@ class _LoginPageState extends State<LoginPage> {
                     child: TextField(
                       controller: _passwordController,
                       obscureText: true,
+                      textInputAction: TextInputAction.done,
+                      onSubmitted: (_) => _validateLogin(),
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
@@ -205,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    _passwordError ?? 'Masukkan password sesuai dengan username.',
+                    _passwordError ?? 'Masukkan password yang sudah terdaftar.',
                     style: TextStyle(
                       fontSize: 12,
                       color: _passwordError != null ? Colors.red : Colors.grey[600],
