@@ -1,6 +1,93 @@
 import 'package:flutter/material.dart';
 import 'beranda.dart'; // Pastikan sudah import BerandaPage
 
+Future<void> showSuccessNotification(BuildContext context) async {
+  final screenWidth = MediaQuery.of(context).size.width;
+
+  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Container(
+        width: double.infinity,
+        height: 60,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+              ),
+              child: const Icon(
+                Icons.check_rounded,
+                color: Color(0xFFCB5D29),
+                size: 30,
+              ),
+            ),
+            const SizedBox(width: 15),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    'Login Berhasil',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 3),
+                  Text(
+                    'Selamat datang kembali!',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Color(0xFFCB5D29),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      margin: EdgeInsets.only(
+        bottom: 70,
+        left: screenWidth * 0.1,
+        right: screenWidth * 0.1,
+      ),
+      duration: const Duration(milliseconds: 1500),
+      elevation: 5,
+    ),
+  );
+
+  // ⏳ Tunggu sampai snackbar selesai tampil
+  await Future.delayed(const Duration(milliseconds: 1500));
+
+  // 🚀 Setelah selesai, baru navigasi ke halaman beranda
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => BerandaPage()),
+  );
+}
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -28,15 +115,15 @@ class _LoginPageState extends State<LoginPage> {
   }
   
   // Method untuk validasi login
-  void _validateLogin() {
+  Future<void> _validateLogin() async {
     // Reset error messages
     setState(() {
       _usernameError = null;
       _passwordError = null;
     });
-    
+
     bool isValid = true;
-    
+
     // Validasi username
     if (_usernameController.text.isEmpty) {
       setState(() {
@@ -49,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
       });
       isValid = false;
     }
-    
+
     // Validasi password
     if (_passwordController.text.isEmpty) {
       setState(() {
@@ -62,27 +149,13 @@ class _LoginPageState extends State<LoginPage> {
       });
       isValid = false;
     }
-    
-    // Jika semua valid, navigasi ke halaman beranda
+
+    // Jika semua valid, tampilkan notifikasi dan tunggu dulu
     if (isValid) {
-      // Tampilkan pesan sukses
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Login berhasil!'),
-          backgroundColor: Colors.green,
-        ),
-      );
-      
-      // Navigasi ke beranda setelah login sukses
-      Future.delayed(Duration(milliseconds: 300), () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => BerandaPage()),
-        );
-      });
+      await showSuccessNotification(context);
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

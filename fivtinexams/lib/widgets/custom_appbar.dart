@@ -22,7 +22,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: widget.showBackButton,
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 247, 247, 247),
       elevation: 0,
       toolbarHeight: 90, 
       title: Image.asset(
