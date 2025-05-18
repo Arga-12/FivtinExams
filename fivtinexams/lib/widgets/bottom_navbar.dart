@@ -45,6 +45,13 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> with SingleTick
       _animationController.forward();
     }
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final itemWidth = MediaQuery.of(context).size.width / 5;
+    _indicatorPosition = widget.currentIndex * itemWidth;
+  } 
   
   @override
   void dispose() {

@@ -1,44 +1,11 @@
 import 'package:flutter/material.dart';
-import '../widgets/custom_appbar.dart'; // import custom appbar
-import '../widgets/bottom_navbar.dart'; // pastikan path-nya sesuai
 
-class BerandaPage extends StatefulWidget {
+class BerandaPage extends StatelessWidget {
   const BerandaPage({super.key});
 
   @override
-  State<BerandaPage> createState() => _BerandaPageState();
-}
-
-class _BerandaPageState extends State<BerandaPage> {
-  int _selectedIndex = 0;
-
-  final List<Widget> _pages = [
-    const BerandaContent(), // konten beranda tetap dipisah agar tidak rekursif
-    const PlaceholderWidget('Kisi-kisi'), // kamu bisa ganti nanti
-    const PlaceholderWidget('Ujian'),
-    const PlaceholderWidget('Lat. Soal'),
-    const PlaceholderWidget('Peringkat'),
-  ];
-
-  void _onNavTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 247, 247, 247),
-      appBar: const CustomAppBar(
-        title: 'Beranda',
-      ),
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: CustomBottomNavbar(
-        currentIndex: _selectedIndex,
-        onTap: _onNavTapped,
-      ),
-    );
+    return const BerandaContent();
   }
 }
 
@@ -48,7 +15,7 @@ class BerandaContent extends StatelessWidget {
 
   Widget judulBeranda() {
     return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.symmetric(vertical: 0),
       child: Center(
         child: Text(
           'Beranda',
@@ -78,7 +45,7 @@ class BerandaContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Nama info
-                _buildProfileRow("Nama", "Jerome Polin"),
+                _buildProfileRow("Nama", "Ramadhan Arga A."),
                 const SizedBox(height: 20),
                 
                 // NIS info
@@ -162,9 +129,9 @@ class BerandaContent extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              Icon(
+              const Icon(
                 Icons.info_outline,
-                color: const Color.fromARGB(255, 64, 95, 121),
+                color: Color.fromARGB(255, 64, 95, 121),
                 size: 25,
               ),
             ],
@@ -176,7 +143,7 @@ class BerandaContent extends StatelessWidget {
           const SizedBox(height: 5),
 
           // Progress Ujian dimasukkan di sini
-        _buildProgressCard(),
+          _buildProgressCard(),
         ],
       ),
     );
@@ -241,10 +208,10 @@ class BerandaContent extends StatelessWidget {
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(4),
-              child: LinearProgressIndicator(
+              child: const LinearProgressIndicator(
                 value: 0.73,
                 backgroundColor: Colors.white,
-                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFFD8B51)),
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFD8B51)),
                 minHeight: 8,
               ),
             ),
@@ -409,18 +376,6 @@ class BerandaContent extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-// Placeholder sementara untuk halaman lain
-class PlaceholderWidget extends StatelessWidget {
-  final String title;
-  const PlaceholderWidget(this.title, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('$title Page', style: TextStyle(fontSize: 24)),
     );
   }
 }

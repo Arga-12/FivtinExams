@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'beranda.dart'; // Pastikan sudah import BerandaPage
+import 'main_screen.dart'; // Pastikan ini diimpor
 
 Future<void> showSuccessNotification(BuildContext context) async {
   final screenWidth = MediaQuery.of(context).size.width;
@@ -78,13 +78,12 @@ Future<void> showSuccessNotification(BuildContext context) async {
     ),
   );
 
-  // ⏳ Tunggu sampai snackbar selesai tampil
   await Future.delayed(const Duration(milliseconds: 1500));
 
-  // 🚀 Setelah selesai, baru navigasi ke halaman beranda
+  // Navigasi ke MainScreen yang memiliki bottom navigation
   Navigator.pushReplacement(
     context,
-    MaterialPageRoute(builder: (context) => BerandaPage()),
+    MaterialPageRoute(builder: (context) => const MainScreen()),
   );
 }
 
@@ -99,11 +98,9 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   
-  // Username dan Password yang valid
   final String validUsername = 'Arga';
   final String validPassword = 'Arga';
   
-  // Error messages
   String? _usernameError;
   String? _passwordError;
 
@@ -114,9 +111,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
   
-  // Method untuk validasi login
   Future<void> _validateLogin() async {
-    // Reset error messages
     setState(() {
       _usernameError = null;
       _passwordError = null;
@@ -124,7 +119,6 @@ class _LoginPageState extends State<LoginPage> {
 
     bool isValid = true;
 
-    // Validasi username
     if (_usernameController.text.isEmpty) {
       setState(() {
         _usernameError = 'Username tidak boleh kosong';
@@ -137,7 +131,6 @@ class _LoginPageState extends State<LoginPage> {
       isValid = false;
     }
 
-    // Validasi password
     if (_passwordController.text.isEmpty) {
       setState(() {
         _passwordError = 'Password tidak boleh kosong';
@@ -150,7 +143,6 @@ class _LoginPageState extends State<LoginPage> {
       isValid = false;
     }
 
-    // Jika semua valid, tampilkan notifikasi dan tunggu dulu
     if (isValid) {
       await showSuccessNotification(context);
     }
@@ -159,10 +151,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, // Mencegah layar resize saat keyboard muncul
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          // Bottom gradient decoration (kotak-kotak di bawah)
           Positioned(
             bottom: -MediaQuery.of(context).size.height * 0.01,
             left: 0,
@@ -174,7 +165,6 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
 
-          // Main content
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -183,7 +173,6 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   SizedBox(height: 100),
                   
-                  // Title
                   Text(
                     'Login',
                     style: TextStyle(
@@ -194,7 +183,6 @@ class _LoginPageState extends State<LoginPage> {
                   
                   SizedBox(height: 20),
                   
-                  // Username field
                   Text(
                     'Username',
                     style: TextStyle(
@@ -223,7 +211,6 @@ class _LoginPageState extends State<LoginPage> {
                             : null,
                       ),
                       onChanged: (value) {
-                        // Reset error when user types
                         if (_usernameError != null) {
                           setState(() {
                             _usernameError = null;
@@ -243,7 +230,6 @@ class _LoginPageState extends State<LoginPage> {
                   
                   SizedBox(height: 16),
                   
-                  // Password field
                   Text(
                     'Password',
                     style: TextStyle(
@@ -273,7 +259,6 @@ class _LoginPageState extends State<LoginPage> {
                             : null,
                       ),
                       onChanged: (value) {
-                        // Reset error when user types
                         if (_passwordError != null) {
                           setState(() {
                             _passwordError = null;
@@ -293,7 +278,6 @@ class _LoginPageState extends State<LoginPage> {
                   
                   SizedBox(height: 24),
                   
-                  // Login button
                   Align(
                     alignment: Alignment.centerRight,
                     child: ElevatedButton(
@@ -306,7 +290,7 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         elevation: 5,
-                        shadowColor: Colors.black.withOpacity(0.7),  // Mengubah warna bayangan
+                        shadowColor: Colors.black.withOpacity(0.7),
                       ),
                       child: Text(
                         'Login',
