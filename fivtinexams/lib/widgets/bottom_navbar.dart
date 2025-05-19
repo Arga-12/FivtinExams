@@ -105,13 +105,15 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> with SingleTick
               ),
             ),
             child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.bottomCenter,
               children: [
                 // Animated Indicator - Modernized
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeOutCubic,
                   left: _indicatorPosition + (itemWidth - 45) / 2, // Posisi tengah item
-                  bottom: 12, // Posisi di bawah
+                  bottom: 5, // Posisi di bawah
                   child: Container(
                     width: 45,
                     height: 3,
@@ -133,11 +135,14 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> with SingleTick
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _buildNavItem(0, Icons.home_rounded, 'Beranda', itemWidth),
-                    _buildNavItem(1, Icons.menu_book_rounded, 'Kisi-kisi', itemWidth),
-                    _buildNavItem(2, Icons.edit_rounded, 'Ujian', itemWidth),
-                    _buildNavItem(3, Icons.article_rounded, 'Lat. Soal', itemWidth),
-                    _buildNavItem(4, Icons.leaderboard_rounded, 'Peringkat', itemWidth),
+                    _buildNavItemWithImage(0, 'assets/icons/beranda.png', 'Beranda', itemWidth),
+                    _buildNavItemWithImage(1, 'assets/icons/kisiksi.png', 'Kisi-kisi', itemWidth),
+                    
+                    // Item tengah (Ujian) dengan style khusus
+                    _buildCenterNavItem(2, 'assets/icons/ujian.png', 'Ujian', itemWidth),
+                    
+                    _buildNavItemWithImage(3, 'assets/icons/latsol.png', 'Lat. Soal', itemWidth),
+                    _buildNavItemWithImage(4, 'assets/icons/peringkat.png', 'Peringkat', itemWidth),
                   ],
                 ),
               ],
@@ -148,7 +153,8 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> with SingleTick
     );
   }
 
-  Widget _buildNavItem(int index, IconData icon, String label, double width) {
+  // Widget untuk item navbar biasa
+  Widget _buildNavItemWithImage(int index, String imagePath, String label, double width) {
     final bool isSelected = widget.currentIndex == index;
     
     return GestureDetector(
@@ -156,45 +162,96 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> with SingleTick
       behavior: HitTestBehavior.opaque,
       child: SizedBox(
         width: width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Icon dengan animasi fade dan ukuran
-            AnimatedBuilder(
-              animation: _animation,
-              builder: (context, child) {
-                final double scale = isSelected 
-                    ? 1.0 + (_animation.value * 0.4)
-                    : 1.0;
-                
-                return Transform.scale(
-                  scale: isSelected && _animationController.isAnimating 
-                      ? scale
-                      : isSelected ? 1.4 : 1.0,
-                  child: Icon(
-                    icon,
-                    color: isSelected ? Colors.white : Colors.white70,
-                    size: 24,
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: 5),
-            
-            // Label dengan animasi opacity
-            AnimatedOpacity(
-              opacity: isSelected ? 1.0 : 0.7,
-              duration: const Duration(milliseconds: 200),
-              child: Text(
-                label,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: isSelected ? 12 : 11,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+        child: Center(
+          child: AnimatedBuilder(
+            animation: _animation,
+            builder: (context, child) {
+              final double scale = isSelected 
+                  ? 1.0 + (_animation.value * 0.4)
+                  : 1.0;
+              
+              return Transform.scale(
+                scale: isSelected && _animationController.isAnimating 
+                    ? scale
+                    : isSelected ? 1.4 : 1.0,
+                child: Image.asset(
+                  imagePath,
+                  width: 40,
+                  height: 40,
+                  color: isSelected ? Colors.white : Colors.white70,
                 ),
-              ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+  
+  // Widget khusus untuk item tengah (Ujian) dengan style yang modern
+  Widget _buildCenterNavItem(int index, String imagePath, String label, double width) {
+    final bool isSelected = widget.currentIndex == index;
+    
+    return GestureDetector(
+      onTap: () => widget.onTap(index),
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
+        width: width,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 17),
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                // Background circular dengan efek bayangan
+                Positioned(
+                  bottom: -7,
+                  child: Container(
+                    width: 55,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isSelected ? Colors.white : Colors.white.withOpacity(0.9),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 8,
+                          spreadRadius: 1,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                
+                // Ikon ujian dengan efek scale saat aktif
+                AnimatedBuilder(
+                  animation: _animation,
+                  builder: (context, child) {
+                    final double scale = isSelected 
+                        ? 1.0 + (_animation.value * 0.3)
+                        : 1.0;
+                    
+                    return Positioned(
+                      bottom: isSelected ? 0 : 0,
+                      child: Transform.scale(
+                        scale: isSelected && _animationController.isAnimating 
+                            ? scale
+                            : isSelected ? 1.3 : 1.0,
+                        child: Image.asset(
+                          imagePath,
+                          width: 35,
+                          height: 35,
+                          color: isSelected ? const Color(0xFFCB5D29) : const Color(0xFFE87A45),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

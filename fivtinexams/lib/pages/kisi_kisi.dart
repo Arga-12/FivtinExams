@@ -121,54 +121,110 @@ class _KisiKisiState extends State<KisiKisi> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+       padding: const EdgeInsets.all(25.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Widget Header Semester
+          // Widget Header Semester Modern
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 20), // Padding disesuaikan
-            decoration: BoxDecoration(
-              color: const Color(0xFFCB6040), // Warna coklat kemerahan
-              borderRadius: BorderRadius.circular(12), // Border radius sedikit lebih besar
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 6,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            margin: const EdgeInsets.only(bottom: 15),
+            child: Stack(
               children: [
-                const Text(
-                  '8A',
-                  style: TextStyle(
-                    fontSize: 28, // Ukuran font sedikit lebih kecil
-                    fontWeight: FontWeight.w800, // Ketebalan font disesuaikan
-                    color: Colors.white,
-                    height: 1.2, // Line height disesuaikan
-                  ),
-                ),
-                const SizedBox(height: 8), // Spasi disesuaikan
-                const Text(
-                  'Berikut adalah kisi-kisi ujian yang harus kalian pelajari!',
-                  style: TextStyle(
-                    fontSize: 14, // Ukuran font lebih kecil
-                    color: Colors.white,
-                    height: 1.4, // Line height disesuaikan
-                  ),
-                ),
-                const SizedBox(height: 12), // Spasi disesuaikan
+                // Card utama dengan gradient
                 Container(
-                  alignment: Alignment.centerRight,
-                  child: const Text(
-                    'Periode Angkatan - 24',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white70,
-                      fontStyle: FontStyle.italic, // Ditambahkan italic
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFFE07A5F), Color(0xFFCB6040)],
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Baris atas dengan kelas dan ikon
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            '8A',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                          Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(
+                              Icons.description_outlined,
+                              color: Colors.white,
+                              size: 22,
+                            ),
+                          ),
+                        ],
+                      ),
+                      
+                      const SizedBox(height: 15),
+                      
+                      // Pesan
+                      const Text(
+                        'Berikut adalah kisi-kisi ujian yang harus kalian pelajari!',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                          height: 1.4,
+                        ),
+                      ),
+                      
+                      const SizedBox(height: 15),
+                      
+                      // Periode Angkatan (rata kanan)
+                      Container(
+                        alignment: Alignment.centerRight,
+                        child: const Text(
+                          'Periode Angkatan - 24',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.white70,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                
+                // Elemen dekoratif kecil
+                Positioned(
+                  top: 0,
+                  right: 21,
+                  child: Container(
+                    height: 6,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.3),
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(3),
+                        bottomRight: Radius.circular(3),
+                      ),
                     ),
                   ),
                 ),
@@ -179,7 +235,7 @@ class _KisiKisiState extends State<KisiKisi> {
           // Judul Kisi-Kisi
           Container(
             alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.only(left: 20, top: 10),
+            padding: const EdgeInsets.only(bottom: 10),
             child: const Text(
               'Kisi Kisi Ujian',
               style: TextStyle(
@@ -191,7 +247,7 @@ class _KisiKisiState extends State<KisiKisi> {
           
           // Widget semester aktif
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
               color: const Color(0xFFF2E5BF), // Warna cream #F2E5BF dari style guide
               borderRadius: BorderRadius.circular(10),
@@ -202,7 +258,7 @@ class _KisiKisiState extends State<KisiKisi> {
                 // Fungsi untuk melihat detail semester 3 (sudah terbuka)
               },
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -215,6 +271,8 @@ class _KisiKisiState extends State<KisiKisi> {
                     ),
                     Row(
                       children: [
+                        // Tambahkan SizedBox di sini untuk menggeser widget Aktif ke kanan
+                        const SizedBox(width: 30), // Anda bisa menyesuaikan nilai width sesuai kebutuhan
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                           decoration: BoxDecoration(
@@ -243,7 +301,7 @@ class _KisiKisiState extends State<KisiKisi> {
           ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.zero,
             itemCount: _subjectIcons.length,
             itemBuilder: (context, index) {
               final subject = _subjectIcons.keys.elementAt(index);
