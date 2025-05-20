@@ -120,7 +120,9 @@ class _KisiKisiState extends State<KisiKisi> {
 
   @override
   Widget build(BuildContext context) {
+    final scrollController = PrimaryScrollController.of(context);
     return SingleChildScrollView(
+      controller: scrollController,
        padding: const EdgeInsets.all(25.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

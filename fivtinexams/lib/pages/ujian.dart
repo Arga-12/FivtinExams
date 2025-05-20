@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import '../ujian/ujian_ongoing.dart'; // Import file UjianOngoingPage
+import '../ujian/ujian_history.dart'; // Import file UjianHistoryPage
+import '../ujian/ujian_oncoming.dart'; // Import file UjianOncomingPage
 
 class UjianPage extends StatelessWidget {
   const UjianPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final scrollController = PrimaryScrollController.of(context);
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(25.0), // <- Ini yang ditambahkan
+      controller: scrollController,
+      padding: const EdgeInsets.all(25.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -191,87 +196,156 @@ class UjianPage extends StatelessWidget {
             ),
           ),
 
-          // IPAS Exam Card
-          _buildExamCard(
-            subject: 'IPAS',
-            time: '07:00 - 09:30',
-            points: '20 Pts',
-            isOngoing: true,
-            activeUsers: '10',
-            buttonText: 'Kerjakan Ujian Sekarang',
-          ),
-
-          // Bahasa Inggris Exam Card
-          _buildExamCard(
-            subject: 'Bahasa Inggris',
-            time: '10:00 - 11:30',
-            points: '20 Pts',
-            isOngoing: true,
-            activeUsers: '-',
-            buttonText: 'Kerjakan Ujian Sekarang',
-          ),
-
-          // Upcoming Exams Title
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Row(
-              children: [
-                const Text(
-                  'Upcoming Exams',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: Color(0xFF2A7C8E),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Text(
-                    '3',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
+          // IPAS Exam Card - MODIFIKASI DI SINI: Tambahkan onTap untuk navigasi ke UjianOngoingPage
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const UjianOngoingPage()),
+              );
+            },
+            child: _buildExamCard(
+              subject: 'IPAS',
+              time: '07:00 - 09:30',
+              points: '20 Pts',
+              isOngoing: true,
+              activeUsers: '10',
+              buttonText: 'Kerjakan Ujian Sekarang',
             ),
           ),
 
-          // Seni Budaya Exam Card (Upcoming)
-          _buildExamCard(
-            subject: 'Seni Budaya', 
-            time: '12 • 9 • 2024',
-            points: '20 Pts',
-            isUpcoming: true,
-            activeUsers: '-',
-            buttonText: 'Lihat detail ujian',
+          // Bahasa Inggris Exam Card - MODIFIKASI DI SINI: Tambahkan onTap untuk navigasi ke UjianOngoingPage
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const UjianOngoingPage()),
+              );
+            },
+            child: _buildExamCard(
+              subject: 'Bahasa Inggris',
+              time: '10:00 - 11:30',
+              points: '20 Pts',
+              isOngoing: true,
+              activeUsers: '-',
+              buttonText: 'Kerjakan Ujian Sekarang',
+            ),
           ),
 
-          // PJOK Exam Card (Upcoming)
-          _buildExamCard(
-            subject: 'PJOK',
-            time: '12 • 9 • 2024',
-            points: '20 Pts',
-            isUpcoming: true,
-            activeUsers: '-',
-            buttonText: 'Lihat detail ujian',
-          ),
+          // Upcoming Exams Title
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Row(
+                children: [
+                  const Text(
+                    'Upcoming Exams',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF2A7C8E),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Text(
+                      '3',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
-          // Matematika Exam Card (Upcoming)
-          _buildExamCard(
-            subject: 'Matematika',
-            time: '13 • 9 • 2024',
-            points: '20 Pts',
-            isUpcoming: true,
-            activeUsers: '-',
-            buttonText: 'Lihat detail ujian',
-          ),
+            // Seni Budaya Exam Card (Upcoming)
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UjianOncomingPage(
+                      subject: 'Seni Budaya',
+                      date: '12 September 2024',
+                      time: '07:00 - 09:00',
+                      duration: 120,
+                      totalQuestions: 20,
+                      points: '20 Pts',
+                      examDateTime: DateTime(2025, 9, 12, 7, 0), // Tambahkan ini
+                    ),
+                  ),
+                );
+              },
+              child: _buildExamCard(
+                subject: 'Seni Budaya', 
+                time: '12 • 9 • 2024',
+                points: '20 Pts',
+                isUpcoming: true,
+                activeUsers: '-',
+                buttonText: 'Lihat detail ujian',
+              ),
+            ),
 
+            // PJOK Exam Card (Upcoming)
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UjianOncomingPage(
+                      subject: 'PJOK',
+                      date: '12 September 2024',
+                      time: '09:30 - 11:00',
+                      duration: 90,
+                      totalQuestions: 20,
+                      points: '20 Pts',
+                      examDateTime: DateTime(2025, 9, 12, 7, 0), // Tambahkan ini
+                    ),
+                  ),
+                );
+              },
+              child: _buildExamCard(
+                subject: 'PJOK',
+                time: '12 • 9 • 2024',
+                points: '20 Pts',
+                isUpcoming: true,
+                activeUsers: '-',
+                buttonText: 'Lihat detail ujian',
+              ),
+            ),
+
+            // Matematika Exam Card (Upcoming)
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UjianOncomingPage(
+                      subject: 'Matematika',
+                      date: '13 September 2024',
+                      time: '07:00 - 09:30',
+                      duration: 150,
+                      totalQuestions: 25,
+                      points: '20 Pts',
+                      examDateTime: DateTime(2025, 9, 13, 7, 0), // Tambahkan ini
+                    ),
+                  ),
+                );
+              },
+              child: _buildExamCard(
+                subject: 'Matematika',
+                time: '13 • 9 • 2024',
+                points: '20 Pts',
+                isUpcoming: true,
+                activeUsers: '-',
+                buttonText: 'Lihat detail ujian',
+              ),
+            ),
           // Past Exams Title
           const Padding(
             padding: EdgeInsets.only(bottom: 16),
@@ -284,44 +358,76 @@ class UjianPage extends StatelessWidget {
             ),
           ),
 
-          // PAI Exam Card
-          _buildExamCard(
-            subject: 'PAI',
-            time: '9 • 9 • 2024',
-            points: '20 Pts',
-            isPast: true,
-            activeUsers: '-',
-            buttonText: 'Lihat history pengerjaan',
+          // PAI Exam Card - MODIFIKASI DI SINI: Tambahkan onTap untuk navigasi ke UjianHistoryPage
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const UjianHistoryPage()),
+              );
+            },
+            child: _buildExamCard(
+              subject: 'PAI',
+              time: '9 • 9 • 2024',
+              points: '20 Pts',
+              isPast: true,
+              activeUsers: '-',
+              buttonText: 'Lihat history pengerjaan',
+            ),
           ),
 
-          // PPKn Exam Card
-          _buildExamCard(
-            subject: 'PPKn',
-            time: '9 • 9 • 2024',
-            points: '20 Pts',
-            isPast: true,
-            activeUsers: '-',
-            buttonText: 'Lihat history pengerjaan',
+          // PPKn Exam Card - MODIFIKASI DI SINI: Tambahkan onTap untuk navigasi ke UjianHistoryPage
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const UjianHistoryPage()),
+              );
+            },
+            child: _buildExamCard(
+              subject: 'PPKn',
+              time: '9 • 9 • 2024',
+              points: '20 Pts',
+              isPast: true,
+              activeUsers: '-',
+              buttonText: 'Lihat history pengerjaan',
+            ),
           ),
 
-          // Bahasa Indonesia Exam Card
-          _buildExamCard(
-            subject: 'Bahasa Indonesia',
-            time: '10 • 9 • 2024',
-            points: '20 Pts',
-            isPast: true,
-            activeUsers: '-',
-            buttonText: 'Lihat history pengerjaan',
+          // Bahasa Indonesia Exam Card - MODIFIKASI DI SINI: Tambahkan onTap untuk navigasi ke UjianHistoryPage
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const UjianHistoryPage()),
+              );
+            },
+            child: _buildExamCard(
+              subject: 'Bahasa Indonesia',
+              time: '10 • 9 • 2024',
+              points: '20 Pts',
+              isPast: true,
+              activeUsers: '-',
+              buttonText: 'Lihat history pengerjaan',
+            ),
           ),
 
-          // Bahasa Jawa Exam Card
-          _buildExamCard(
-            subject: 'Bahasa Jawa',
-            time: '10 • 9 • 2024',
-            points: '20 Pts',
-            isPast: true,
-            activeUsers: '-',
-            buttonText: 'Lihat history pengerjaan',
+          // Bahasa Jawa Exam Card - MODIFIKASI DI SINI: Tambahkan onTap untuk navigasi ke UjianHistoryPage
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const UjianHistoryPage()),
+              );
+            },
+            child: _buildExamCard(
+              subject: 'Bahasa Jawa',
+              time: '10 • 9 • 2024',
+              points: '20 Pts',
+              isPast: true,
+              activeUsers: '-',
+              buttonText: 'Lihat history pengerjaan',
+            ),
           ),
 
           const SizedBox(height: 80), // Space for bottom navigation

@@ -3,32 +3,61 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final bool showBackButton;
+  final ScrollController? scrollController;
   
   const CustomAppBar({
     super.key, 
     this.title = 'Beranda',
     this.showBackButton = false,
+    this.scrollController,
   });
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
   
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 30); // Height yang lebih konsisten
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 30);
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
+  bool _showShadow = false;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.scrollController?.addListener(_handleScroll);
+  }
+
+  @override
+  void dispose() {
+    widget.scrollController?.removeListener(_handleScroll);
+    super.dispose();
+  }
+
+  void _handleScroll() {
+    final showShadow = widget.scrollController?.hasClients == true && 
+                      widget.scrollController!.offset > 5;
+    if (showShadow != _showShadow) {
+      setState(() {
+        _showShadow = showShadow;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: widget.showBackButton,
       backgroundColor: const Color.fromARGB(255, 247, 247, 247),
-      elevation: 0,
-      toolbarHeight: kToolbarHeight + 30, // Menggunakan nilai yang sama dengan preferredSize
+      elevation: _showShadow ? 4 : 0, // Elevation akan membuat shadow muncul
+      scrolledUnderElevation: 0, // Matikan efek bawaan Flutter
+      shadowColor: Colors.black, // Warna shadow
+      surfaceTintColor: Colors.transparent, // Pastikan warna tidak berubah
+      toolbarHeight: kToolbarHeight + 30,
       title: Padding(
         padding: const EdgeInsets.only(top: 8.0),
         child: Image.asset(
-          'assets/Logo2.png', // Logo sudah mencakup teks "FIVTIN EXAMS"
+          'assets/Logo2.png',
           height: 50,
           fit: BoxFit.contain,
         ),
@@ -48,7 +77,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              // User Avatar
               CircleAvatar(
                 backgroundColor: Colors.orange.shade100,
                 radius: 18,
@@ -58,7 +86,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   size: 24,
                 ),
               ),
-              // Small Settings Icon in a circle at the bottom right corner of the user avatar
               Positioned(
                 bottom: 0,
                 right: 0,

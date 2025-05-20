@@ -16,24 +16,25 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  final List<GlobalKey> _pageKeys = [
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+  ];
+  final List<ScrollController> _scrollControllers = List.generate(
+    5,
+    (index) => ScrollController(),
+  );
 
-  // Gunakan lazy loading dengan fungsi builder agar widget hanya dibuat saat diperlukan
-  Widget _getPage(int index) {
-    switch (index) {
-      case 0:
-        return const BerandaPage();
-      case 1:
-        return const KisiKisi();
-      case 2:
-        return const UjianPage();
-      case 3:
-        return const LatihanSoal();
-      case 4:
-        return const PeringkatPage();
-      default:
-        return const BerandaPage();
-    }
-  }
+  final List<Widget> _pages = [
+    const BerandaPage(),
+    const KisiKisi(),
+    const UjianPage(),
+    const LatihanSoal(),
+    const PeringkatPage(),
+  ];
 
   final List<String> _titles = [
     'Beranda',
@@ -50,16 +51,51 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   @override
+  void dispose() {
+    for (var controller in _scrollControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 247, 247, 247),
       appBar: CustomAppBar(
         title: _titles[_selectedIndex],
+        scrollController: _scrollControllers[_selectedIndex],
       ),
-      body: _getPage(_selectedIndex),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: List.generate(_pages.length, (index) {
+          return _wrapWithScrollController(
+            child: _pages[index],
+            controller: _scrollControllers[index],
+            key: _pageKeys[index],
+          );
+        }),
+      ),
       bottomNavigationBar: CustomBottomNavbar(
         currentIndex: _selectedIndex,
         onTap: _onNavTapped,
+      ),
+    );
+  }
+
+  Widget _wrapWithScrollController({
+    required Widget child,
+    required ScrollController controller,
+    required Key key,
+  }) {
+    return KeyedSubtree(
+      key: key,
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (notification) {
+          // Biarkan scroll controller menangani scroll
+          return false;
+        },
+        child: child,
       ),
     );
   }
