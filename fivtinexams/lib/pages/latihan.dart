@@ -5,346 +5,442 @@ class LatihanSoal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scrollController = PrimaryScrollController.of(context);
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20.0),
+      controller: scrollController,
+      padding: const EdgeInsets.all(25.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Center(
-            child: Text(
-              'Latihan Soal',
-              style: TextStyle(
-                fontSize: 34,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
+          // Header Card Modern
+          Container(
+            margin: const EdgeInsets.only(bottom: 15),
+            child: Stack(
+              children: [
+                // Card utama dengan gradient
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFFE07A5F), Color(0xFFCB6040)],
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      // Text section
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              '8A',
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              'Latihan soal ujian',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white70,
+                                height: 1.2,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Periode Angkatan - 24',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white60,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      
+                      // Semester section
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: const [
+                          Text(
+                            'Semester',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white70,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            '3',
+                            style: TextStyle(
+                              fontSize: 48,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                              height: 1.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                
+                // Elemen dekoratif kecil
+                Positioned(
+                  top: 0,
+                  right: 31,
+                  child: Container(
+                    height: 6,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.3),
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(3),
+                        bottomRight: Radius.circular(3),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 20),
-          
-          // Kategori Latihan
-          _buildSectionTitle("Kategori"),
-          const SizedBox(height: 16),
-          
-          // Grid kategori
-          GridView.count(
-            crossAxisCount: 2,
+
+          // Grid Layout untuk Mata Pelajaran
+          GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
-            childAspectRatio: 1.5,
-            children: [
-              _buildCategoryCard(
-                title: "Matematika",
-                iconData: Icons.calculate,
-                color: Colors.blue,
-                onTap: () {},
-              ),
-              _buildCategoryCard(
-                title: "IPAS",
-                iconData: Icons.science,
-                color: Colors.green,
-                onTap: () {},
-              ),
-              _buildCategoryCard(
-                title: "B. Indonesia",
-                iconData: Icons.book,
-                color: Colors.red,
-                onTap: () {},
-              ),
-              _buildCategoryCard(
-                title: "B. Inggris",
-                iconData: Icons.language,
-                color: Colors.orange,
-                onTap: () {},
-              ),
-            ],
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 15,
+              mainAxisSpacing: 15,
+              childAspectRatio: 0.8, // Diperbesar dari 0.9 ke 1.1 untuk memberikan ruang lebih
+            ),
+            itemCount: _subjectData.length,
+            itemBuilder: (context, index) {
+              final subject = _subjectData[index];
+              return _buildSubjectCard(subject);
+            },
           ),
-          
-          const SizedBox(height: 24),
-          
-          // Latihan Terakhir
-          _buildSectionTitle("Latihan Terakhir"),
-          const SizedBox(height: 16),
-          
-          _buildRecentPracticeCard(
-            subject: "Matematika",
-            topic: "Persamaan Kuadrat",
-            score: 85,
-            date: "17 Mei 2025",
-            onTap: () {},
-          ),
-          
-          const SizedBox(height: 10),
-          
-          _buildRecentPracticeCard(
-            subject: "Bahasa Inggris",
-            topic: "Tenses",
-            score: 90,
-            date: "16 Mei 2025",
-            onTap: () {},
-          ),
-          
-          const SizedBox(height: 24),
-          
-          // Rekomendasi Latihan
-          _buildSectionTitle("Rekomendasi Untukmu"),
-          const SizedBox(height: 16),
-          
-          _buildRecommendationCard(
-            title: "Latihan Soal UTBK",
-            description: "Kumpulan soal-soal persiapan UTBK dengan pembahasan lengkap",
-            progress: 0.3,
-            onTap: () {},
-          ),
-          
-          const SizedBox(height: 10),
-          
-          _buildRecommendationCard(
-            title: "Soal Olimpiade Matematika",
-            description: "Soal-soal matematika tingkat olimpiade dengan tingkat kesulitan bervariasi",
-            progress: 0.0,
-            isNew: true,
-            onTap: () {},
+
+          const SizedBox(height: 20),
+
+          // Upload Section Card
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFF2A7C8E), Color(0xFF1E5A68)],
+              ),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 8,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        'Upload hasil pekerjaan',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        'Melalui link GDrive di sini',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white70,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.cloud_upload_outlined,
+                    color: Colors.white,
+                    size: 28,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSectionTitle(String title) {
-    return Text(
-      title,
-      style: const TextStyle(
-        fontSize: 22,
-        fontWeight: FontWeight.bold,
-        color: Color(0xFF2A7C8E),
-      ),
-    );
-  }
-
-  Widget _buildCategoryCard({
-    required String title,
-    required IconData iconData,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                iconData,
-                size: 36,
-                color: color,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
+  Widget _buildSubjectCard(Map<String, dynamic> subject) {
+    return Container(
+      decoration: BoxDecoration(
+        color: subject['bgColor'],
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
           ),
-        ),
+        ],
       ),
-    );
-  }
-
-  Widget _buildRecentPracticeCard({
-    required String subject,
-    required String topic,
-    required int score,
-    required String date,
-    required VoidCallback onTap,
-  }) {
-    Color scoreColor;
-    if (score >= 90) {
-      scoreColor = Colors.green;
-    } else if (score >= 75) {
-      scoreColor = Colors.orange;
-    } else {
-      scoreColor = Colors.red;
-    }
-
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: scoreColor.withOpacity(0.2),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Text(
-                    "$score",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: scoreColor,
-                    ),
-                  ),
-                ),
+      child: Stack(
+        children: [
+          // Background pattern
+          Positioned(
+            top: -20,
+            right: -20,
+            child: Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.1),
+                shape: BoxShape.circle,
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            ),
+          ),
+          
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Icon dan Badge
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      subject,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        subject['icon'],
+                        color: subject['iconColor'],
+                        size: 18, // Diperkecil dari 20 ke 18
                       ),
                     ),
-                    Text(
-                      topic,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: subject['badgeColor'],
+                        borderRadius: BorderRadius.circular(6),
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      date,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey[500],
+                      child: Text(
+                        subject['type'],
+                        style: const TextStyle(
+                          fontSize: 9,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 16,
-                color: Colors.grey[400],
-              ),
-            ],
+                
+                const SizedBox(height: 8),
+                
+                // Nama Mata Pelajaran
+                Flexible(
+                  child: Text(
+                    subject['name'],
+                    style: const TextStyle(
+                      fontSize: 13, // Diperkecil dari 14 ke 13
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2D3748),
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                
+                const SizedBox(height: 4),
+                
+                // Detail Latihan
+                Text(
+                  subject['detail'],
+                  style: TextStyle(
+                    fontSize: 10, // Diperkecil dari 11 ke 10
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.w500,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                
+                const SizedBox(height: 4),
+                
+                // Jumlah Soal
+                Text(
+                  '${subject['totalSoal']} Soal',
+                  style: const TextStyle(
+                    fontSize: 11, // Diperkecil dari 12 ke 11
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF4A5568),
+                  ),
+                ),
+                
+                const Spacer(), // Menambahkan spacer untuk mendorong button ke bawah
+                
+                // Download Button
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 8), // Diperbesar dari 6 ke 8
+                  decoration: BoxDecoration(
+                    color: subject['buttonColor'],
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: subject['buttonColor'].withOpacity(0.3),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: const Icon(
+                    Icons.download_rounded,
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 
-  Widget _buildRecommendationCard({
-    required String title,
-    required String description,
-    required double progress,
-    bool isNew = false,
-    required VoidCallback onTap,
-  }) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  if (isNew)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Text(
-                        "Baru",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                description,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
-                ),
-              ),
-              const SizedBox(height: 12),
-              if (progress > 0) ...[
-                LinearProgressIndicator(
-                  value: progress,
-                  backgroundColor: Colors.grey[300],
-                  valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFFD8B51)),
-                  minHeight: 8,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "${(progress * 100).toInt()}% selesai",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ] else ...[
-                ElevatedButton(
-                  onPressed: onTap,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFD66D55),
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  ),
-                  child: const Text("Mulai Latihan"),
-                ),
-              ],
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // Data mata pelajaran
+  static final List<Map<String, dynamic>> _subjectData = [
+    {
+      'name': 'PPKn',
+      'detail': 'Latihan Soal\nBu Rika',
+      'totalSoal': 35,
+      'type': 'PDF',
+      'icon': Icons.description_rounded,
+      'iconColor': Color(0xFF4A5568),
+      'bgColor': Color(0xFFFFF5F5),
+      'buttonColor': Color(0xFFE53E3E),
+      'badgeColor': Color(0xFFE53E3E),
+    },
+    {
+      'name': 'PAI',
+      'detail': 'Latihan Soal\nPak Ino',
+      'totalSoal': 30,
+      'type': 'PDF',
+      'icon': Icons.description_rounded,
+      'iconColor': Color(0xFF4A5568),
+      'bgColor': Color(0xFFF0FFF4),
+      'buttonColor': Color(0xFF38A169),
+      'badgeColor': Color(0xFF38A169),
+    },
+    {
+      'name': 'Bahasa Inggris',
+      'detail': 'Latihan Soal\nBu Tika',
+      'totalSoal': 30,
+      'type': 'PDF',
+      'icon': Icons.description_rounded,
+      'iconColor': Color(0xFF4A5568),
+      'bgColor': Color(0xFFEBF8FF),
+      'buttonColor': Color(0xFF3182CE),
+      'badgeColor': Color(0xFF3182CE),
+    },
+    {
+      'name': 'Bahasa Indonesia',
+      'detail': 'Latihan Soal\nPak Indra',
+      'totalSoal': 40,
+      'type': 'DOC',
+      'icon': Icons.description_rounded,
+      'iconColor': Color(0xFF4A5568),
+      'bgColor': Color(0xFFFAF5FF),
+      'buttonColor': Color(0xFF805AD5),
+      'badgeColor': Color(0xFF805AD5),
+    },
+    {
+      'name': 'Bahasa Jawa',
+      'detail': 'Latihan Soal\nBu Reza',
+      'totalSoal': 30,
+      'type': 'PDF',
+      'icon': Icons.description_rounded,
+      'iconColor': Color(0xFF4A5568),
+      'bgColor': Color(0xFFFFFBF0),
+      'buttonColor': Color(0xFFD69E2E),
+      'badgeColor': Color(0xFFD69E2E),
+    },
+    {
+      'name': 'Seni Budaya',
+      'detail': 'Latihan Soal\nPak Alfiq',
+      'totalSoal': 30,
+      'type': 'DOC',
+      'icon': Icons.description_rounded,
+      'iconColor': Color(0xFF4A5568),
+      'bgColor': Color(0xFFFFF5F5),
+      'buttonColor': Color(0xFFE53E3E),
+      'badgeColor': Color(0xFFE53E3E),
+    },
+    {
+      'name': 'Matematika',
+      'detail': 'Latihan Soal\nBu Yayuk',
+      'totalSoal': 40,
+      'type': 'PDF',
+      'icon': Icons.description_rounded,
+      'iconColor': Color(0xFF4A5568),
+      'bgColor': Color(0xFFF0FFF4),
+      'buttonColor': Color(0xFF38A169),
+      'badgeColor': Color(0xFF38A169),
+    },
+    {
+      'name': 'IPAS',
+      'detail': 'Latihan Soal\nBu Yayuk',
+      'totalSoal': 30,
+      'type': 'PDF',
+      'icon': Icons.description_rounded,
+      'iconColor': Color(0xFF4A5568),
+      'bgColor': Color(0xFFEBF8FF),
+      'buttonColor': Color(0xFF3182CE),
+      'badgeColor': Color(0xFF3182CE),
+    },
+  ];
 }

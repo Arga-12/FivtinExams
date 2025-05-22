@@ -6,61 +6,52 @@ class UjianHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header
-            _buildHeader(context),
-            
-            // Content
-            Expanded(
-              child: _buildHistoryContent(),
+      backgroundColor: Colors.grey[50],
+      body: CustomScrollView(
+        slivers: [
+          // Header sebagai SliverAppBar
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            foregroundColor: Colors.black87,
+            elevation: 2,
+            shadowColor: Colors.black12,
+            pinned: true,
+            floating: false,
+            expandedHeight: 60,
+            toolbarHeight: 60,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.black87),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-          ],
-        ),
+            title: const Text(
+              "PAI - History Pengerjaan",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
+          ),
+          
+          // Content sebagai SliverList
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: _buildHistoryContent(),
+              ),
+            ]),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-    decoration: const BoxDecoration(
-      color: Colors.white,
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black12,
-          blurRadius: 4,
-          offset: Offset(0, 2),
-        ),
-      ],
-    ),
-    child: Row(
-      children: [
-        IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context); // Kembali ke halaman sebelumnya (UjianPage)
-          },
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-        ),
-        const SizedBox(width: 16),
-        const Text(
-          "IPAS - History Pengerjaan",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
   Widget _buildHistoryContent() {
-    return ListView(
-      padding: const EdgeInsets.all(16),
+    return Column(
       children: [
         // Informasi skor dan status
         _buildScoreCard(),
@@ -138,6 +129,9 @@ class UjianHistoryPage extends StatelessWidget {
           question: "Planet terbesar di tata surya adalah...",
           yourOption: "C. Jupiter",
         ),
+        
+        // Tambahan space di bottom untuk scroll yang lebih nyaman
+        const SizedBox(height: 20),
       ],
     );
   }
@@ -196,7 +190,7 @@ class UjianHistoryPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   const Text(
-                    "18/20",
+                    "20",
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,

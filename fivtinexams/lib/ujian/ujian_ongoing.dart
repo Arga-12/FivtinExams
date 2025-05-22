@@ -170,7 +170,10 @@ class _UjianPageState extends State<UjianOngoingPage> with TickerProviderStateMi
             children: [
               _buildExamHeader(),
               Expanded(
+                child: Padding(
+                padding: const EdgeInsets.all(25.0),
                 child: _buildQuestionArea(),
+              ),
               ),
             ],
           ),
@@ -240,14 +243,14 @@ class _UjianPageState extends State<UjianOngoingPage> with TickerProviderStateMi
     bool allQuestionsAnswered = _questions.every((question) => question.isAnswered);
     
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.zero,
       children: [
         ..._questions.map((question) => Column(
           children: [
             _buildQuestionCard(question),
             const SizedBox(height: 16),
           ],
-        )).toList(),
+        )),
         
         Padding(
           padding: const EdgeInsets.only(bottom: 32),
@@ -397,7 +400,7 @@ class _UjianPageState extends State<UjianOngoingPage> with TickerProviderStateMi
               activeColor: const Color(0xFF257180),
               visualDensity: VisualDensity.compact,
             );
-          }).toList(),
+          }),
         ],
       ),
     );

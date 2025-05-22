@@ -91,11 +91,11 @@ class _UjianOncomingPageState extends State<UjianOncomingPage> {
             fontSize: 18,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFF5F5F5),
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(25.0), // Padding konsisten 25.0 seperti di beranda
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -133,7 +133,7 @@ class _UjianOncomingPageState extends State<UjianOncomingPage> {
   // Widget tombol mulai ujian yang hanya muncul ketika waktu ujian tiba
   Widget _buildStartExamButton() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 16.0), // Konsistensi padding horizontal
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
