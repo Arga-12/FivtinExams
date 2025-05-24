@@ -96,31 +96,44 @@ class PeringkatPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       // Jika ini adalah item terakhir, tampilkan info footer
                       if (index == _peringkatData.length) {
-                        return Container(
-                          margin: const EdgeInsets.fromLTRB(16, 12, 16, 16),
-                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.info_outline,
-                                size: 16,
-                                color: Colors.grey.shade700,
+                        return GestureDetector(
+                          onTap: () => _showInfoPopup(context),
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade100,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.blue.withOpacity(0.3),
+                                width: 1,
                               ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  'Klik di sini untuk mengetahui bagaimana sistem poin bekerja dalam aplikasi ini',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey.shade700,
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.info_outline,
+                                  size: 16,
+                                  color: Colors.blue.shade600,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    'Klik di sini untuk mengetahui bagaimana sistem poin bekerja dalam aplikasi ini',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.blue.shade600,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 12,
+                                  color: Colors.blue.shade600,
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       }
@@ -214,6 +227,74 @@ class PeringkatPage extends StatelessWidget {
       ),
     );
   }
+
+  // Fungsi untuk menampilkan popup informasi sistem poin
+  void _showInfoPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Sistem Poin',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: const Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Cara Mendapatkan Poin:',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 12),
+              
+              Text(
+                '1. Menyelesaikan Ujian',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 4),
+              Text(
+                'Dapatkan 20 poin tetap setiap kali menyelesaikan ujian, tidak peduli benar atau salah jawaban.',
+                style: TextStyle(fontSize: 12),
+              ),
+              
+              SizedBox(height: 12),
+              
+              Text(
+                '2. Latihan Soal',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 4),
+              Text(
+                'Submit pengerjaan melalui Google Form. Poin akan diberikan setelah guru mengecek. Jika ada jawaban yang salah, poin dapat berkurang. (poin maksimal 20)',
+                style: TextStyle(fontSize: 12),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Mengerti'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
 
   // Fungsi untuk mendapatkan warna background berdasarkan peringkat
   Color _getRankBackgroundColor(int index) {

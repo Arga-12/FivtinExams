@@ -190,7 +190,7 @@ class BerandaContent extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       decoration: BoxDecoration(
-        color: const Color(0xFFD66D55),
+        color: const Color(0xFFCB6040),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -247,7 +247,7 @@ class BerandaContent extends StatelessWidget {
             offset: const Offset(0, 3),           // posisi bayangan (x, y)
           ),
         ],
-        color: const Color(0xFFD66D55),
+        color: const Color(0xFFCB6040),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(

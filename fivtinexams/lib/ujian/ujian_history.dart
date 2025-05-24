@@ -6,7 +6,7 @@ class UjianHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           // Header sebagai SliverAppBar
@@ -15,7 +15,6 @@ class UjianHistoryPage extends StatelessWidget {
             surfaceTintColor: Colors.white,
             foregroundColor: Colors.black87,
             elevation: 2,
-            shadowColor: Colors.black12,
             pinned: true,
             floating: false,
             expandedHeight: 60,

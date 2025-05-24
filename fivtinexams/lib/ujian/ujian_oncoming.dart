@@ -82,7 +82,7 @@ class _UjianOncomingPageState extends State<UjianOncomingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: const Color.fromARGB(255, 240, 240, 240),
       appBar: AppBar(
         title: const Text(
           'Detail Ujian',
@@ -91,8 +91,13 @@ class _UjianOncomingPageState extends State<UjianOncomingPage> {
             fontSize: 18,
           ),
         ),
-        backgroundColor: const Color(0xFFF5F5F5),
-        elevation: 0,
+      backgroundColor: Colors.white, // Warna solid tanpa transparansi
+      elevation: 4, // Mengembalikan shadow default
+      titleTextStyle: const TextStyle(
+        color: Colors.black,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(25.0), // Padding konsisten 25.0 seperti di beranda
@@ -337,166 +342,121 @@ class _UjianOncomingPageState extends State<UjianOncomingPage> {
   }
 
   Widget _buildExamDetailsCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            children: [
-              Icon(Icons.info_outline, color: Color(0xFF2A7C8E)),
-              SizedBox(width: 10),
-              Text(
-                'Detail Ujian',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF2A7C8E),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Row(
+          children: [
+            Icon(Icons.info_outline, color: Color(0xFF2A7C8E)),
+            SizedBox(width: 10),
+            Text(
+              'Detail Ujian',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF2A7C8E),
               ),
-            ],
-          ),
-          const Divider(height: 30),
-          _buildDetailItem(
-            icon: Icons.subject,
-            title: 'Mata Pelajaran',
-            value: widget.subject,
-          ),
-          _buildDetailItem(
-            icon: Icons.event,
-            title: 'Tanggal Ujian',
-            value: widget.date,
-          ),
-          _buildDetailItem(
-            icon: Icons.access_time,
-            title: 'Waktu Ujian',
-            value: widget.time,
-          ),
-          _buildDetailItem(
-            icon: Icons.timelapse,
-            title: 'Durasi',
-            value: '${widget.duration} menit',
-          ),
-          _buildDetailItem(
-            icon: Icons.help_outline,
-            title: 'Jumlah Soal',
-            value: '${widget.totalQuestions} soal',
-            isLast: true,
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+        const Divider(height: 30),
+        _buildDetailItem(
+          icon: Icons.subject,
+          title: 'Mata Pelajaran',
+          value: widget.subject,
+        ),
+        _buildDetailItem(
+          icon: Icons.event,
+          title: 'Tanggal Ujian',
+          value: widget.date,
+        ),
+        _buildDetailItem(
+          icon: Icons.access_time,
+          title: 'Waktu Ujian',
+          value: widget.time,
+        ),
+        _buildDetailItem(
+          icon: Icons.timelapse,
+          title: 'Durasi',
+          value: '${widget.duration} menit',
+        ),
+        _buildDetailItem(
+          icon: Icons.help_outline,
+          title: 'Jumlah Soal',
+          value: '${widget.totalQuestions} soal',
+          isLast: true,
+        ),
+      ],
     );
   }
 
   Widget _buildRulesCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            children: [
-              Icon(Icons.rule_folder, color: Color(0xFF2A7C8E)),
-              SizedBox(width: 10),
-              Text(
-                'Peraturan & Informasi',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF2A7C8E),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Row(
+          children: [
+            Icon(Icons.rule_folder, color: Color(0xFF2A7C8E)),
+            SizedBox(width: 10),
+            Text(
+              'Peraturan & Informasi',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF2A7C8E),
               ),
-            ],
-          ),
-          const Divider(height: 30),
-          _buildRuleItem(
-            '1. Pastikan koneksi internet stabil selama ujian berlangsung.'
-          ),
-          _buildRuleItem(
-            '2. Tidak diperbolehkan membuka aplikasi lain selama ujian.'
-          ),
-          _buildRuleItem(
-            '3. Jawaban akan otomatis tersimpan setiap kali Anda pindah soal.'
-          ),
-          _buildRuleItem(
-            '4. Pastikan baterai perangkat mencukupi untuk durasi ujian.'
-          ),
-          _buildRuleItem(
-            '5. Ujian dapat dikerjakan disaat jadwal sudah sesuai.',
-            isLast: true,
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+        const Divider(height: 30),
+        _buildRuleItem(
+          '1. Pastikan koneksi internet stabil selama ujian berlangsung.'
+        ),
+        _buildRuleItem(
+          '2. Tidak diperbolehkan membuka aplikasi lain selama ujian.'
+        ),
+        _buildRuleItem(
+          '3. Jawaban akan otomatis tersimpan setiap kali Anda pindah soal.'
+        ),
+        _buildRuleItem(
+          '4. Pastikan baterai perangkat mencukupi untuk durasi ujian.'
+        ),
+        _buildRuleItem(
+          '5. Ujian dapat dikerjakan disaat jadwal sudah sesuai.',
+          isLast: true,
+        ),
+      ],
     );
   }
 
   Widget _buildTeacherNotesCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            children: [
-              Icon(Icons.message, color: Color(0xFF2A7C8E)),
-              SizedBox(width: 10),
-              Text(
-                'Catatan dari Guru',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF2A7C8E),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Row(
+          children: [
+            Icon(Icons.message, color: Color(0xFF2A7C8E)),
+            SizedBox(width: 10),
+            Text(
+              'Catatan dari Guru',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF2A7C8E),
               ),
-            ],
-          ),
-          const Divider(height: 30),
-          const Text(
-            'Silahkan pelajari bab 3-5 tentang Seni Budaya Daerah, dan perhatikan khususnya pada bagian kesenian tradisional. Bahan ujian mencakup materi yang sudah dibahas di kelas dan yang ada di dalam buku paket.',
-            style: TextStyle(
-              fontSize: 14,
-              height: 1.5,
-              color: Colors.black87,
             ),
+          ],
+        ),
+        const Divider(height: 30),
+        const Text(
+          'Silahkan pelajari bab 3-5 tentang Seni Budaya Daerah, dan perhatikan khususnya pada bagian kesenian tradisional. Bahan ujian mencakup materi yang sudah dibahas di kelas dan yang ada di dalam buku paket.',
+          style: TextStyle(
+            fontSize: 14,
+            height: 1.5,
+            color: Colors.black87,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

@@ -28,20 +28,21 @@ class _MainScreenState extends State<MainScreen> {
     (index) => ScrollController(),
   );
 
-  final List<Widget> _pages = [
-    const BerandaPage(),
-    const KisiKisi(),
-    const UjianPage(),
-    const LatihanSoal(),
-    const PeringkatPage(),
-  ];
-
   final List<String> _titles = [
     'Beranda',
     'Kisi-Kisi',
     'Ujian',
     'Latihan',
     'Peringkat',
+  ];
+
+  // Getter untuk _pages yang dinamis
+  List<Widget> get _pages => [
+    const BerandaPage(),
+    const KisiKisi(),
+    UjianPage(onTabChange: _onNavTapped), // Pass callback ke UjianPage
+    const LatihanSoal(),
+    const PeringkatPage(),
   ];
 
   void _onNavTapped(int index) {

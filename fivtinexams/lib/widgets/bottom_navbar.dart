@@ -85,9 +85,6 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryColor = Color(0xFFCB5D29);
-    const Color secondaryColor = Color(0xFFE87A45);
-
     final screenWidth = MediaQuery.of(context).size.width;
     final itemWidth = screenWidth / 5;
 
@@ -111,11 +108,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
           child: Container(
             height: 85,
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [primaryColor, secondaryColor],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              color: const Color(0xFFCB6040),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30),
                 topRight: Radius.circular(30),

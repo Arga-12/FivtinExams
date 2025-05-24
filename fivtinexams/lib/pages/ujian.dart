@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import '../ujian/ujian_ongoing.dart'; // Import file UjianOngoingPage
 import '../ujian/ujian_history.dart'; // Import file UjianHistoryPage
 import '../ujian/ujian_oncoming.dart'; // Import file UjianOncomingPage
+import 'jadwalujian.dart';
 
 class UjianPage extends StatelessWidget {
-  const UjianPage({super.key});
+  final Function(int)? onTabChange;
+  
+  const UjianPage({super.key, this.onTabChange});
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +27,7 @@ class UjianPage extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [Color(0xFFE07A5F), Color(0xFFCB6040)],
-                    ),
+                    color: const Color(0xFFCB6040),
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
@@ -127,42 +126,40 @@ class UjianPage extends StatelessWidget {
             ),
           ),
 
-          // Exam Schedule Card
-          Container(
-            margin: const EdgeInsets.only(bottom: 15),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: const Color(0xFFFFE4B5),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              children: [
-                const Text(
-                  'Jadwal Ujian 9 Sep 2024 - 13 Sep 2024',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14,
-                    color: Color(0xFF2A7C8E),
-                  ),
+          // Jadwal Ujian Card
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const JadwalUjianPage(),
                 ),
-                const Spacer(),
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF2A7C8E),
-                    borderRadius: BorderRadius.circular(4),
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFE4B5),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  const Text(
+                    'Jadwal Ujian 9 Sep 2024 - 13 Sep 2024',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                      color: Color(0xFF2A7C8E),
+                    ),
                   ),
-                  child: const Icon(
-                    Icons.calendar_month,
-                    color: Colors.white,
-                    size: 18,
+                  const Spacer(),
+                  const Icon(
+                    Icons.chevron_right,
+                    color: Colors.black54,
                   ),
-                ),
-                const Icon(
-                  Icons.chevron_right,
-                  color: Colors.black54,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
 

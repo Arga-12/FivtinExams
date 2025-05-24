@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../user_management/notifikasi.dart';
+import '../user_management/setting.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
@@ -68,8 +70,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
           child: IconButton(
             icon: const Icon(Icons.notifications_none, color: Colors.orange, size: 28),
             onPressed: () {
-              // Implement notification action
+              Navigator.push(
+                context, 
+                MaterialPageRoute(builder: (context) => const NotificationPage())
+              );
             },
+            tooltip: 'Notifikasi',
           ),
         ),
         Padding(
@@ -91,7 +97,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 right: 0,
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/settings');
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(builder: (context) => const SettingsPage())
+                    );
                   },
                   child: Container(
                     width: 16,

@@ -136,11 +136,7 @@ class _KisiKisiState extends State<KisiKisi> {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [Color(0xFFE07A5F), Color(0xFFCB6040)],
-                    ),
+                    color: const Color(0xFFCB6040),
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(

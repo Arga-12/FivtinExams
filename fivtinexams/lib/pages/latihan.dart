@@ -21,11 +21,7 @@ class LatihanSoal extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [Color(0xFFE07A5F), Color(0xFFCB6040)],
-                    ),
+                    color: const Color(0xFFCB6040),
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
@@ -55,19 +51,20 @@ class LatihanSoal extends StatelessWidget {
                             Text(
                               'Latihan soal ujian',
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 15,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.white70,
-                                height: 1.2,
+                                color: Colors.white,
+                                height: 1.4,
                               ),
                             ),
                             SizedBox(height: 8),
                             Text(
                               'Periode Angkatan - 24',
                               style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white60,
+                                fontSize: 13,
+                                color: Colors.white70,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
@@ -122,16 +119,10 @@ class LatihanSoal extends StatelessWidget {
             ),
           ),
 
-          // Grid Layout untuk Mata Pelajaran
-          GridView.builder(
+          // List Layout untuk Mata Pelajaran
+          ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 15,
-              mainAxisSpacing: 15,
-              childAspectRatio: 0.8, // Diperbesar dari 0.9 ke 1.1 untuk memberikan ruang lebih
-            ),
             itemCount: _subjectData.length,
             itemBuilder: (context, index) {
               final subject = _subjectData[index];
@@ -148,7 +139,7 @@ class LatihanSoal extends StatelessWidget {
               gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Color(0xFF2A7C8E), Color(0xFF1E5A68)],
+                colors: [Color(0xFF257180), Color(0xFF1E5A68)],
               ),
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
@@ -175,7 +166,7 @@ class LatihanSoal extends StatelessWidget {
                       ),
                       SizedBox(height: 5),
                       Text(
-                        'Melalui link GDrive di sini',
+                        'Melalui link Google Form di sini',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.white70,
@@ -204,243 +195,160 @@ class LatihanSoal extends StatelessWidget {
     );
   }
 
-  Widget _buildSubjectCard(Map<String, dynamic> subject) {
-    return Container(
-      decoration: BoxDecoration(
-        color: subject['bgColor'],
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 8,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          // Background pattern
-          Positioned(
-            top: -20,
-            right: -20,
-            child: Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Icon dan Badge
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+Widget _buildSubjectCard(Map<String, dynamic> subject) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+          child: Row(
+            children: [
+              // Content Section (tanpa icon)
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        subject['icon'],
-                        color: subject['iconColor'],
-                        size: 18, // Diperkecil dari 20 ke 18
+                    // Subject Name
+                    Text(
+                      subject['name'],
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF2D3748),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: subject['badgeColor'],
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        subject['type'],
-                        style: const TextStyle(
-                          fontSize: 9,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                    
+                    const SizedBox(height: 6),
+                    
+                    // Points with indicator
+                    Row(
+                      children: [
+                        Text(
+                          'Poin: ',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[700],
+                          ),
                         ),
-                      ),
+                        Text(
+                          '${subject['currentPoints']}/20',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: subject['currentPoints'] > 0 
+                                ? subject['iconColor'] 
+                                : Colors.grey[500],
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        // Status indicator
+                        Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            color: subject['currentPoints'] == 0 
+                                ? Colors.orange[100]
+                                : subject['currentPoints'] == 20
+                                  ? Colors.green[100]
+                                  : Colors.blue[100],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            subject['currentPoints'] == 0 
+                                ? Icons.priority_high_rounded
+                                : subject['currentPoints'] == 20
+                                  ? Icons.check_circle_rounded
+                                  : Icons.trending_up_rounded,
+                            size: 14,
+                            color: subject['currentPoints'] == 0 
+                                ? Colors.orange[700]
+                                : subject['currentPoints'] == 20
+                                  ? Colors.green[700]
+                                  : Colors.blue[700],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                
-                const SizedBox(height: 8),
-                
-                // Nama Mata Pelajaran
-                Flexible(
-                  child: Text(
-                    subject['name'],
-                    style: const TextStyle(
-                      fontSize: 13, // Diperkecil dari 14 ke 13
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF2D3748),
+              ),
+              
+              const SizedBox(width: 16),
+              
+              // Download Button
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: subject['iconColor'],
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: subject['iconColor'].withOpacity(0.3),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  ],
                 ),
-                
-                const SizedBox(height: 4),
-                
-                // Detail Latihan
-                Text(
-                  subject['detail'],
-                  style: TextStyle(
-                    fontSize: 10, // Diperkecil dari 11 ke 10
-                    color: Colors.grey[600],
-                    fontWeight: FontWeight.w500,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                child: const Icon(
+                  Icons.download_rounded,
+                  color: Colors.white,
+                  size: 20,
                 ),
-                
-                const SizedBox(height: 4),
-                
-                // Jumlah Soal
-                Text(
-                  '${subject['totalSoal']} Soal',
-                  style: const TextStyle(
-                    fontSize: 11, // Diperkecil dari 12 ke 11
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF4A5568),
-                  ),
-                ),
-                
-                const Spacer(), // Menambahkan spacer untuk mendorong button ke bawah
-                
-                // Download Button
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 8), // Diperbesar dari 6 ke 8
-                  decoration: BoxDecoration(
-                    color: subject['buttonColor'],
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: subject['buttonColor'].withOpacity(0.3),
-                        blurRadius: 4,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: const Icon(
-                    Icons.download_rounded,
-                    color: Colors.white,
-                    size: 16,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+        
+        // Divider
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          height: 1,
+          color: Colors.grey.withOpacity(0.2),
+        ),
+      ],
     );
   }
 
-  // Data mata pelajaran
+  // Subject data tanpa icon
   static final List<Map<String, dynamic>> _subjectData = [
     {
       'name': 'PPKn',
-      'detail': 'Latihan Soal\nBu Rika',
-      'totalSoal': 35,
-      'type': 'PDF',
-      'icon': Icons.description_rounded,
-      'iconColor': Color(0xFF4A5568),
-      'bgColor': Color(0xFFFFF5F5),
-      'buttonColor': Color(0xFFE53E3E),
-      'badgeColor': Color(0xFFE53E3E),
+      'currentPoints': 0,
+      'iconColor': Color(0xFF257180),
     },
     {
       'name': 'PAI',
-      'detail': 'Latihan Soal\nPak Ino',
-      'totalSoal': 30,
-      'type': 'PDF',
-      'icon': Icons.description_rounded,
-      'iconColor': Color(0xFF4A5568),
-      'bgColor': Color(0xFFF0FFF4),
-      'buttonColor': Color(0xFF38A169),
-      'badgeColor': Color(0xFF38A169),
+      'currentPoints': 18,
+      'iconColor': Color(0xFFCB6040),
     },
     {
       'name': 'Bahasa Inggris',
-      'detail': 'Latihan Soal\nBu Tika',
-      'totalSoal': 30,
-      'type': 'PDF',
-      'icon': Icons.description_rounded,
-      'iconColor': Color(0xFF4A5568),
-      'bgColor': Color(0xFFEBF8FF),
-      'buttonColor': Color(0xFF3182CE),
-      'badgeColor': Color(0xFF3182CE),
+      'currentPoints': 20,
+      'iconColor': Color(0xFFFD8B51),
     },
     {
       'name': 'Bahasa Indonesia',
-      'detail': 'Latihan Soal\nPak Indra',
-      'totalSoal': 40,
-      'type': 'DOC',
-      'icon': Icons.description_rounded,
-      'iconColor': Color(0xFF4A5568),
-      'bgColor': Color(0xFFFAF5FF),
-      'buttonColor': Color(0xFF805AD5),
-      'badgeColor': Color(0xFF805AD5),
+      'currentPoints': 15,
+      'iconColor': Color(0xFF257180),
     },
     {
       'name': 'Bahasa Jawa',
-      'detail': 'Latihan Soal\nBu Reza',
-      'totalSoal': 30,
-      'type': 'PDF',
-      'icon': Icons.description_rounded,
-      'iconColor': Color(0xFF4A5568),
-      'bgColor': Color(0xFFFFFBF0),
-      'buttonColor': Color(0xFFD69E2E),
-      'badgeColor': Color(0xFFD69E2E),
+      'currentPoints': 0,
+      'iconColor': Color(0xFFCB6040),
     },
     {
       'name': 'Seni Budaya',
-      'detail': 'Latihan Soal\nPak Alfiq',
-      'totalSoal': 30,
-      'type': 'DOC',
-      'icon': Icons.description_rounded,
-      'iconColor': Color(0xFF4A5568),
-      'bgColor': Color(0xFFFFF5F5),
-      'buttonColor': Color(0xFFE53E3E),
-      'badgeColor': Color(0xFFE53E3E),
+      'currentPoints': 12,
+      'iconColor': Color(0xFFFD8B51),
     },
     {
       'name': 'Matematika',
-      'detail': 'Latihan Soal\nBu Yayuk',
-      'totalSoal': 40,
-      'type': 'PDF',
-      'icon': Icons.description_rounded,
-      'iconColor': Color(0xFF4A5568),
-      'bgColor': Color(0xFFF0FFF4),
-      'buttonColor': Color(0xFF38A169),
-      'badgeColor': Color(0xFF38A169),
+      'currentPoints': 20,
+      'iconColor': Color(0xFF257180),
     },
     {
       'name': 'IPAS',
-      'detail': 'Latihan Soal\nBu Yayuk',
-      'totalSoal': 30,
-      'type': 'PDF',
-      'icon': Icons.description_rounded,
-      'iconColor': Color(0xFF4A5568),
-      'bgColor': Color(0xFFEBF8FF),
-      'buttonColor': Color(0xFF3182CE),
-      'badgeColor': Color(0xFF3182CE),
+      'currentPoints': 8,
+      'iconColor': Color(0xFFCB6040),
     },
   ];
 }
