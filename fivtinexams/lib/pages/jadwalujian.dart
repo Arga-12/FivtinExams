@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class JadwalUjianPage extends StatefulWidget {
-  const JadwalUjianPage({Key? key}) : super(key: key);
+  const JadwalUjianPage({super.key});
 
   @override
   State<JadwalUjianPage> createState() => _JadwalUjianPageState();
@@ -35,34 +35,35 @@ class _JadwalUjianPageState extends State<JadwalUjianPage> {
     ],
   };
 
+  // Convert examSchedule to flat list for ListView
+  List<Map<String, dynamic>> get examList {
+    List<Map<String, dynamic>> list = [];
+    examSchedule.entries.forEach((entry) {
+      final date = entry.key;
+      entry.value.forEach((exam) {
+        list.add({
+          'date': date,
+          'subject': exam['subject'],
+          'time': exam['time'],
+          'status': exam['status'],
+        });
+      });
+    });
+    return list;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white, // Warna solid tanpa transparansi
-          elevation: 4, // Shadow default
-          leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back, color: Colors.black), // Ikon dari contoh kedua
-          ),
-          title: const Text(
-            'Jadwal Ujian',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          centerTitle: false,
-        ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [                      // Progress Card Modern
+    final scrollController = PrimaryScrollController.of(context);
+    return SingleChildScrollView(
+      controller: scrollController,
+      padding: const EdgeInsets.all(25.0), // Sama seperti beranda
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Progress Card Modern (unchanged)
           Container(
-            margin: const EdgeInsets.only(bottom: 15),
+            margin: const EdgeInsets.only(bottom: 20),
             child: Stack(
               children: [
                 // Card utama dengan gradient
@@ -130,7 +131,7 @@ class _JadwalUjianPageState extends State<JadwalUjianPage> {
                               strokeWidth: 8,
                               backgroundColor: Color(0xFFF2E5BF),
                               valueColor: const AlwaysStoppedAnimation<Color>(
-                                Color(0xFF2A7C8E),
+                                Color(0xFF257180),
                               ),
                             ),
                           ),
@@ -168,187 +169,171 @@ class _JadwalUjianPageState extends State<JadwalUjianPage> {
             ),
           ),
 
+          // Title
+          const Text(
+            'Jadwal ujian semester 3',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF2A7C8E),
+            ),
+          ),
+          
+          const SizedBox(height: 10),
+          
+          // Calendar Card
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 6,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              children: [
+                // Month/Year header
+                Text(
+                  'September 2024',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF2A7C8E),
+                  ),
+                ),
+                
+                const SizedBox(height: 20),
+                
+                // Calendar grid
+                _buildCalendar(),
+              ],
+            ),
+          ),
+          
+          const SizedBox(height: 32),
+          
+          // Detail Jadwal Header
+          Text(
+            'Detail Jadwal',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF2A7C8E),
+            ),
+          ),
+          
+          const SizedBox(height: 16),
+          
+          // Transparent ListView
+          ...examList.map((exam) => _buildTransparentExamItem(exam)),
+          
           const SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
 
-            // Title
-            const Text(
-              'Jadwal ujian semester 3',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+  Widget _buildTransparentExamItem(Map<String, dynamic> exam) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Row(
+        children: [
+          // Date Circle
+          Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              color: _getStatusColor(exam['status']),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: _getStatusColor(exam['status']).withOpacity(0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Center(
+              child: Text(
+                '${exam['date']}',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
-            
-            const SizedBox(height: 20),
-            
-            // Calendar Card
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
+          ),
+          
+          const SizedBox(width: 16),
+          
+          // Content
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  exam['subject'],
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF2A7C8E),
                   ),
-                ],
-              ),
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  // Month/Year header
-                  Text(
-                    'September - 2024',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.access_time_rounded,
+                      size: 16,
+                      color: const Color(0xFF2A7C8E).withOpacity(0.7),
                     ),
-                  ),
-                  
-                  const SizedBox(height: 20),
-                  
-                  // Calendar grid
-                  _buildCalendar(),
-                ],
-              ),
-            ),
-            
-            const SizedBox(height: 24),
-            
-            // Schedule section title
-            const Text(
-              'Detail Jadwal',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            
-            const SizedBox(height: 16),
-            
-            // Schedule cards
-            ...examSchedule.entries.map((entry) {
-              final date = entry.key;
-              final exams = entry.value;
-              
-              return Column(
-                children: exams.map((exam) {
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        children: [
-                          // Date circle
-                          Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: _getStatusColor(exam['status']!),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: Text(
-                                '$date',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: _getStatusTextColor(exam['status']!),
-                                ),
-                              ),
-                            ),
-                          ),
-                          
-                          const SizedBox(width: 16),
-                          
-                          // Exam details
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  exam['subject']!,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.access_time,
-                                      size: 14,
-                                      color: Colors.grey,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      exam['time']!,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Sep $date, 2024',
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          
-                          // Status badge
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: _getStatusColor(exam['status']!),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              _getStatusText(exam['status']!),
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: _getStatusTextColor(exam['status']!),
-                              ),
-                            ),
-                          ),
-                        ],
+                    const SizedBox(width: 6),
+                    Text(
+                      exam['time'],
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF2A7C8E).withOpacity(0.7),
                       ),
                     ),
-                  );
-                }).toList(),
-              );
-            }).toList(),
-            
-            const SizedBox(height: 80), // Space for bottom navigation
-          ],
-        ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Sep ${exam['date']}, 2024',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: const Color(0xFF2A7C8E).withOpacity(0.5),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          
+          // Status Badge
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: _getStatusColor(exam['status']),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              _getStatusText(exam['status']),
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -365,9 +350,9 @@ class _JadwalUjianPageState extends State<JadwalUjianPage> {
                     child: Text(
                       day,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: Colors.grey,
+                        color: const Color(0xFF2A7C8E).withOpacity(0.7),
                         fontSize: 12,
                       ),
                     ),
@@ -375,7 +360,7 @@ class _JadwalUjianPageState extends State<JadwalUjianPage> {
               .toList(),
         ),
         
-        const SizedBox(height: 12),
+        const SizedBox(height: 16),
         
         // Calendar days
         _buildCalendarDays(),
@@ -405,7 +390,7 @@ class _JadwalUjianPageState extends State<JadwalUjianPage> {
           height: 36,
           margin: const EdgeInsets.all(2),
           decoration: BoxDecoration(
-            color: hasExam ? const Color(0xFFFFE4B5) : null,
+            color: hasExam ? const Color(0xFFF2E5BF) : null, // Ganti orange dengan warna beranda
             border: isToday ? Border.all(color: const Color(0xFF2A7C8E), width: 2) : null,
             borderRadius: BorderRadius.circular(18),
           ),
@@ -415,9 +400,9 @@ class _JadwalUjianPageState extends State<JadwalUjianPage> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: hasExam ? FontWeight.bold : FontWeight.normal,
-                color: hasExam ? const Color(0xFF2A7C8E) : 
+                color: hasExam ? const Color(0xFF257180) : 
                        isToday ? const Color(0xFF2A7C8E) : 
-                       Colors.black,
+                       const Color(0xFF2A7C8E),
               ),
             ),
           ),
@@ -438,7 +423,7 @@ class _JadwalUjianPageState extends State<JadwalUjianPage> {
         ),
       );
       if (i + 7 < dayWidgets.length) {
-        rows.add(const SizedBox(height: 8));
+        rows.add(const SizedBox(height: 12));
       }
     }
     
@@ -448,27 +433,18 @@ class _JadwalUjianPageState extends State<JadwalUjianPage> {
   Color _getStatusColor(String status) {
     switch (status) {
       case 'Selesai':
-        return Colors.green.withOpacity(0.15);
+        return const Color(0xFF257180);
       case 'Berlangsung':
-        return Colors.orange.withOpacity(0.15);
+        return const Color(0xFFFD8B51);
       case 'Akan Datang':
-        return Colors.blue.withOpacity(0.15);
+        return const Color(0xFFCB6040);
       default:
-        return Colors.grey.withOpacity(0.15);
+        return const Color(0xFF257180);
     }
   }
 
   Color _getStatusTextColor(String status) {
-    switch (status) {
-      case 'Selesai':
-        return Colors.green.shade700;
-      case 'Berlangsung':
-        return Colors.orange.shade700;
-      case 'Akan Datang':
-        return Colors.blue.shade700;
-      default:
-        return Colors.grey.shade700;
-    }
+    return Colors.white;
   }
 
   String _getStatusText(String status) {

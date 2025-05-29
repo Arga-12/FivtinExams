@@ -18,27 +18,33 @@ class _SettingsPageState extends State<SettingsPage> {
   bool _darkMode = false;
   String _bahasa = 'Indonesia';
 
+  // Theme colors
+  Color get _backgroundColor => _darkMode ? const Color(0xFF1A1A1A) : const Color.fromARGB(255, 247, 247, 247);
+  Color get _cardColor => _darkMode ? const Color(0xFF2D2D2D) : Colors.white;
+  Color get _textPrimaryColor => _darkMode ? Colors.white : const Color(0xFF2D3748);
+  Color get _textSecondaryColor => _darkMode ? Colors.grey[400]! : Colors.grey[600]!;
+  Color get _dividerColor => _darkMode ? Colors.grey[700]! : Colors.grey[300]!;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 247, 247, 247),
+      backgroundColor: _backgroundColor,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 247, 247, 247),
-        surfaceTintColor: Colors.transparent, // Mencegah perubahan warna saat scroll
-        elevation: 0, // Sama seperti notifikasi
+        backgroundColor: _backgroundColor,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF2D3748)), // Sama seperti notifikasi
+          icon: Icon(Icons.arrow_back, color: _textPrimaryColor),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           'Pengaturan',
           style: TextStyle(
-            color: Color(0xFF2D3748), // Sama seperti notifikasi
-            fontSize: 18, // Sama seperti notifikasi
-            fontWeight: FontWeight.bold, // Sama seperti notifikasi
+            color: _textPrimaryColor,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        // Hapus centerTitle: true agar konsisten dengan notifikasi
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -50,11 +56,13 @@ class _SettingsPageState extends State<SettingsPage> {
               width: double.infinity,
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: _cardColor,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: _darkMode 
+                        ? Colors.black.withOpacity(0.3)
+                        : Colors.black.withOpacity(0.05),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -87,23 +95,25 @@ class _SettingsPageState extends State<SettingsPage> {
             const SizedBox(height: 24),
             
             // Settings Section
-            const Text(
+            Text(
               'Pengaturan Aplikasi',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: Colors.black87,
+                color: _textPrimaryColor,
               ),
             ),
             const SizedBox(height: 12),
             
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: _cardColor,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: _darkMode 
+                        ? Colors.black.withOpacity(0.3)
+                        : Colors.black.withOpacity(0.05),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -124,7 +134,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     },
                   ),
                   
-                  const Divider(height: 1, indent: 56),
+                  Divider(height: 1, indent: 56, color: _dividerColor),
                   
                   // Dark Mode Setting
                   _buildSwitchTile(
@@ -139,7 +149,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     },
                   ),
                   
-                  const Divider(height: 1, indent: 56),
+                  Divider(height: 1, indent: 56, color: _dividerColor),
                   
                   // Language Setting
                   _buildMenuTile(
@@ -157,23 +167,25 @@ class _SettingsPageState extends State<SettingsPage> {
             const SizedBox(height: 24),
             
             // Other Options
-            const Text(
+            Text(
               'Lainnya',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: Colors.black87,
+                color: _textPrimaryColor,
               ),
             ),
             const SizedBox(height: 12),
             
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: _cardColor,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: _darkMode 
+                        ? Colors.black.withOpacity(0.3)
+                        : Colors.black.withOpacity(0.05),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -188,12 +200,15 @@ class _SettingsPageState extends State<SettingsPage> {
                     () {
                       // Implement help functionality
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Fitur bantuan akan segera hadir')),
+                        SnackBar(
+                          content: const Text('Fitur bantuan akan segera hadir'),
+                          backgroundColor: _darkMode ? Colors.grey[800] : null,
+                        ),
                       );
                     },
                   ),
                   
-                  const Divider(height: 1, indent: 56),
+                  Divider(height: 1, indent: 56, color: _dividerColor),
                   
                   _buildMenuTile(
                     'Tentang Aplikasi',
@@ -224,18 +239,18 @@ class _SettingsPageState extends State<SettingsPage> {
             label,
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey[600],
+              color: _textSecondaryColor,
               fontWeight: FontWeight.w500,
             ),
           ),
         ),
-        const Text(' : ', style: TextStyle(color: Colors.grey)),
+        Text(' : ', style: TextStyle(color: _textSecondaryColor)),
         Expanded(
           child: Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
-              color: Colors.black87,
+              color: _textPrimaryColor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -250,23 +265,25 @@ class _SettingsPageState extends State<SettingsPage> {
       leading: Icon(icon, color: Colors.orange, size: 24),
       title: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
-          color: Colors.black87,
+          color: _textPrimaryColor,
         ),
       ),
       subtitle: Text(
         subtitle,
         style: TextStyle(
           fontSize: 12,
-          color: Colors.grey[600],
+          color: _textSecondaryColor,
         ),
       ),
       trailing: Switch(
         value: value,
         onChanged: onChanged,
         activeColor: Colors.orange,
+        inactiveThumbColor: _darkMode ? Colors.grey[300] : null,
+        inactiveTrackColor: _darkMode ? Colors.grey[600] : null,
       ),
     );
   }
@@ -284,19 +301,19 @@ class _SettingsPageState extends State<SettingsPage> {
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
-          color: isDestructive ? Colors.red : Colors.black87,
+          color: isDestructive ? Colors.red : _textPrimaryColor,
         ),
       ),
       subtitle: Text(
         subtitle,
         style: TextStyle(
           fontSize: 12,
-          color: Colors.grey[600],
+          color: _textSecondaryColor,
         ),
       ),
       trailing: Icon(
         Icons.chevron_right,
-        color: Colors.grey[400],
+        color: _textSecondaryColor,
       ),
       onTap: onTap,
     );
@@ -307,12 +324,19 @@ class _SettingsPageState extends State<SettingsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Pilih Bahasa'),
+          backgroundColor: _cardColor,
+          title: Text(
+            'Pilih Bahasa',
+            style: TextStyle(color: _textPrimaryColor),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               RadioListTile<String>(
-                title: const Text('Indonesia'),
+                title: Text(
+                  'Indonesia',
+                  style: TextStyle(color: _textPrimaryColor),
+                ),
                 value: 'Indonesia',
                 groupValue: _bahasa,
                 activeColor: Colors.orange,
@@ -324,7 +348,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 },
               ),
               RadioListTile<String>(
-                title: const Text('English'),
+                title: Text(
+                  'English',
+                  style: TextStyle(color: _textPrimaryColor),
+                ),
                 value: 'English',
                 groupValue: _bahasa,
                 activeColor: Colors.orange,
@@ -347,18 +374,34 @@ class _SettingsPageState extends State<SettingsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Tentang Aplikasi'),
-          content: const Column(
+          backgroundColor: _cardColor,
+          title: Text(
+            'Tentang Aplikasi',
+            style: TextStyle(color: _textPrimaryColor),
+          ),
+          content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Nama Aplikasi: Fivtin Exams'),
-              SizedBox(height: 8),
-              Text('Versi: 1.0.7'),
-              SizedBox(height: 8),
-              Text('Dikembangkan oleh: UdangKeju'),
-              SizedBox(height: 16),
-              Text('Aplikasi ujian sekolah untuk memudahkan siswa dan guru dalam mengelola kegiatan ujian.'),
+              Text(
+                'Nama Aplikasi: Fivtin Exams',
+                style: TextStyle(color: _textPrimaryColor),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Versi: 1.0.7',
+                style: TextStyle(color: _textPrimaryColor),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Dikembangkan oleh: UdangKeju',
+                style: TextStyle(color: _textPrimaryColor),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Aplikasi ujian sekolah untuk memudahkan siswa dan guru dalam mengelola kegiatan ujian.',
+                style: TextStyle(color: _textSecondaryColor),
+              ),
             ],
           ),
           actions: [

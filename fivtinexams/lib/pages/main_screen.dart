@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'beranda.dart';
 import 'kisi_kisi.dart';
 import 'ujian.dart';
-import 'latihan.dart';
+import 'jadwalujian.dart';
 import 'peringkat.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/bottom_navbar.dart';
@@ -32,16 +32,16 @@ class _MainScreenState extends State<MainScreen> {
     'Beranda',
     'Kisi-Kisi',
     'Ujian',
-    'Latihan',
+    'Jadwal',
     'Peringkat',
   ];
 
   // Getter untuk _pages yang dinamis
   List<Widget> get _pages => [
-    const BerandaPage(),
+    BerandaPage(onTabChange: _onNavTapped), // Pass callback ke BerandaPage
     const KisiKisi(),
     UjianPage(onTabChange: _onNavTapped), // Pass callback ke UjianPage
-    const LatihanSoal(),
+    const JadwalUjianPage(),
     const PeringkatPage(),
   ];
 

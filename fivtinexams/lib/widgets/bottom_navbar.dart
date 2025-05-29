@@ -146,7 +146,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                     _buildNavItem(0, 'assets/icons/beranda.svg', 'Beranda', itemWidth),
                     _buildNavItem(1, 'assets/icons/kisiksi.svg', 'Kisi-kisi', itemWidth),
                     _buildCenterItem(2, 'assets/icons/ujian.svg', 'Ujian', itemWidth),
-                    _buildNavItem(3, 'assets/icons/latsol.svg', 'Lat. Soal', itemWidth),
+                    _buildNavItem(3, 'assets/icons/jadwal.svg', 'Jadwal', itemWidth),
                     _buildNavItem(4, 'assets/icons/peringkat.svg', 'Peringkat', itemWidth),
                   ],
                 ),
@@ -165,17 +165,18 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
         onTap: () => widget.onTap(index),
         splashColor: Colors.white.withOpacity(0.0),
         highlightColor: Colors.white.withOpacity(0.00),
-        child: SizedBox(
+        child: Container(
           width: width,
-          height: 85, // Ensure the tap area is tall enough
+          height: 85,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center, // Tambahkan ini untuk memastikan center horizontal
             children: [
               AnimatedBuilder(
                 animation: _itemAnimations[index]!,
                 builder: (context, _) {
                   return Transform.scale(
-                    scale: 1.0 + (0.4 * _itemAnimations[index]!.value),
+                    scale: 1.0 + (0.5 * _itemAnimations[index]!.value),
                     child: SvgPicture.asset(
                       iconPath,
                       width: 24,
@@ -199,6 +200,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                 builder: (context, _) {
                   return Text(
                     label,
+                    textAlign: TextAlign.center, // Tambahkan ini untuk memastikan teks center
                     style: TextStyle(
                       color: Color.lerp(
                         Colors.white70, 
@@ -230,11 +232,12 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
         splashColor: const Color(0xFFE87A45).withOpacity(0.1),
         highlightColor: const Color(0xFFE87A45).withOpacity(0.05),
         borderRadius: BorderRadius.circular(60),
-        child: SizedBox(
+        child: Container(
           width: width,
-          height: 85, // Ensure the tap area is tall enough
+          height: 85,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center, // Tambahkan ini
             children: [
               Transform.translate(
                 offset: const Offset(0, 0),
@@ -252,56 +255,56 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar>
                       ),
                     ],
                   ),
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        AnimatedBuilder(
-                          animation: _itemAnimations[index]!,
-                          builder: (context, _) {
-                            return Transform.scale(
-                              scale: 1.0 + (0.5 * _itemAnimations[index]!.value),
-                              child: SvgPicture.asset(
-                                iconPath,
-                                width: 20,
-                                height: 20,
-                                colorFilter: ColorFilter.mode(
-                                  Color.lerp(
-                                    const Color(0xFFE87A45),
-                                    const Color(0xFFCB5D29),
-                                    _itemAnimations[index]!.value
-                                  )!,
-                                  BlendMode.srcIn,
-                                ),
-                                placeholderBuilder: (context) => const Icon(Icons.error),
-                              ),
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 2),
-                        AnimatedBuilder(
-                          animation: _itemAnimations[index]!,
-                          builder: (context, _) {
-                            return Text(
-                              label,
-                              style: TextStyle(
-                                color: Color.lerp(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center, // Ubah dari MainAxisSize.min
+                    crossAxisAlignment: CrossAxisAlignment.center, // Tambahkan ini
+                    children: [
+                      AnimatedBuilder(
+                        animation: _itemAnimations[index]!,
+                        builder: (context, _) {
+                          return Transform.scale(
+                            scale: 1.0 + (0.5 * _itemAnimations[index]!.value),
+                            child: SvgPicture.asset(
+                              iconPath,
+                              width: 20,
+                              height: 20,
+                              colorFilter: ColorFilter.mode(
+                                Color.lerp(
                                   const Color(0xFFE87A45),
                                   const Color(0xFFCB5D29),
                                   _itemAnimations[index]!.value
-                                ),
-                                fontSize: 10,
-                                fontWeight: FontWeight.lerp(
-                                  FontWeight.w500,
-                                  FontWeight.bold,
-                                  _itemAnimations[index]!.value,
-                                ),
+                                )!,
+                                BlendMode.srcIn,
                               ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                              placeholderBuilder: (context) => const Icon(Icons.error),
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 2),
+                      AnimatedBuilder(
+                        animation: _itemAnimations[index]!,
+                        builder: (context, _) {
+                          return Text(
+                            label,
+                            textAlign: TextAlign.center, // Tambahkan ini
+                            style: TextStyle(
+                              color: Color.lerp(
+                                const Color(0xFFE87A45),
+                                const Color(0xFFCB5D29),
+                                _itemAnimations[index]!.value
+                              ),
+                              fontSize: 10,
+                              fontWeight: FontWeight.lerp(
+                                FontWeight.w500,
+                                FontWeight.bold,
+                                _itemAnimations[index]!.value,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ),

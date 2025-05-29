@@ -40,7 +40,7 @@ class NotificationPage extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          ..._notificationData.map((notification) => _buildNotificationItem(notification)).toList(),
+          ..._notificationData.map((notification) => _buildNotificationItem(notification)),
         ],
       ),
     );

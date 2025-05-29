@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../ujian/ujian_ongoing.dart'; // Import file UjianOngoingPage
 import '../ujian/ujian_history.dart'; // Import file UjianHistoryPage
 import '../ujian/ujian_oncoming.dart'; // Import file UjianOncomingPage
-import 'jadwalujian.dart';
+// Import jadwalujian.dart dihapus karena tidak diperlukan lagi
 
 class UjianPage extends StatelessWidget {
   final Function(int)? onTabChange;
@@ -126,43 +126,6 @@ class UjianPage extends StatelessWidget {
             ),
           ),
 
-          // Jadwal Ujian Card
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const JadwalUjianPage(),
-                ),
-              );
-            },
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 15),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFE4B5),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: [
-                  const Text(
-                    'Jadwal Ujian 9 Sep 2024 - 13 Sep 2024',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      color: Color(0xFF2A7C8E),
-                    ),
-                  ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.chevron_right,
-                    color: Colors.black54,
-                  ),
-                ],
-              ),
-            ),
-          ),
-
           // On Going Exams
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
@@ -204,7 +167,7 @@ class UjianPage extends StatelessWidget {
             child: _buildExamCard(
               subject: 'IPAS',
               time: '07:00 - 09:30',
-              points: '20 Pts',
+              points: '- / 20 Poin',
               isOngoing: true,
               activeUsers: '10',
               buttonText: 'Kerjakan Ujian Sekarang',
@@ -222,7 +185,7 @@ class UjianPage extends StatelessWidget {
             child: _buildExamCard(
               subject: 'Bahasa Inggris',
               time: '10:00 - 11:30',
-              points: '20 Pts',
+              points: '- / 20 Poin',
               isOngoing: true,
               activeUsers: '-',
               buttonText: 'Kerjakan Ujian Sekarang',
@@ -272,7 +235,7 @@ class UjianPage extends StatelessWidget {
                       time: '07:00 - 09:00',
                       duration: 120,
                       totalQuestions: 20,
-                      points: '20 Pts',
+                      points: '- / 20 Poin',
                       examDateTime: DateTime(2025, 9, 12, 7, 0), // Tambahkan ini
                     ),
                   ),
@@ -281,7 +244,7 @@ class UjianPage extends StatelessWidget {
               child: _buildExamCard(
                 subject: 'Seni Budaya', 
                 time: '12 • 9 • 2024',
-                points: '20 Pts',
+                points: '- / 20 Poin',
                 isUpcoming: true,
                 activeUsers: '-',
                 buttonText: 'Lihat detail ujian',
@@ -300,7 +263,7 @@ class UjianPage extends StatelessWidget {
                       time: '09:30 - 11:00',
                       duration: 90,
                       totalQuestions: 20,
-                      points: '20 Pts',
+                      points: '- / 20 Poin',
                       examDateTime: DateTime(2025, 9, 12, 7, 0), // Tambahkan ini
                     ),
                   ),
@@ -309,7 +272,7 @@ class UjianPage extends StatelessWidget {
               child: _buildExamCard(
                 subject: 'PJOK',
                 time: '12 • 9 • 2024',
-                points: '20 Pts',
+                points: '- / 20 Poin',
                 isUpcoming: true,
                 activeUsers: '-',
                 buttonText: 'Lihat detail ujian',
@@ -328,7 +291,7 @@ class UjianPage extends StatelessWidget {
                       time: '07:00 - 09:30',
                       duration: 150,
                       totalQuestions: 25,
-                      points: '20 Pts',
+                      points: '- / 20 Poin',
                       examDateTime: DateTime(2025, 9, 13, 7, 0), // Tambahkan ini
                     ),
                   ),
@@ -337,7 +300,7 @@ class UjianPage extends StatelessWidget {
               child: _buildExamCard(
                 subject: 'Matematika',
                 time: '13 • 9 • 2024',
-                points: '20 Pts',
+                points: '- / 20 Poin',
                 isUpcoming: true,
                 activeUsers: '-',
                 buttonText: 'Lihat detail ujian',
@@ -366,7 +329,7 @@ class UjianPage extends StatelessWidget {
             child: _buildExamCard(
               subject: 'PAI',
               time: '9 • 9 • 2024',
-              points: '20 Pts',
+              points: '18 / 20 Poin',
               isPast: true,
               activeUsers: '-',
               buttonText: 'Lihat history pengerjaan',
@@ -384,7 +347,7 @@ class UjianPage extends StatelessWidget {
             child: _buildExamCard(
               subject: 'PPKn',
               time: '9 • 9 • 2024',
-              points: '20 Pts',
+              points: '17 / 20 Poin',
               isPast: true,
               activeUsers: '-',
               buttonText: 'Lihat history pengerjaan',
@@ -402,7 +365,7 @@ class UjianPage extends StatelessWidget {
             child: _buildExamCard(
               subject: 'Bahasa Indonesia',
               time: '10 • 9 • 2024',
-              points: '20 Pts',
+              points: '19 / 20 Poin',
               isPast: true,
               activeUsers: '-',
               buttonText: 'Lihat history pengerjaan',
@@ -420,7 +383,7 @@ class UjianPage extends StatelessWidget {
             child: _buildExamCard(
               subject: 'Bahasa Jawa',
               time: '10 • 9 • 2024',
-              points: '20 Pts',
+              points: '16 / 20 Poin',
               isPast: true,
               activeUsers: '-',
               buttonText: 'Lihat history pengerjaan',

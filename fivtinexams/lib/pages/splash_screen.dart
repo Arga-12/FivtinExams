@@ -125,7 +125,7 @@ class _SplashScreenState extends State<SplashScreen>
                   offset: Offset(0, screenHeight * 0.4 * (1 - _bottomBoxAnimation.value)),
                   child: Transform.scale(
                     scale: 1.2, // Mengatur ukuran PNG (1.0 = normal, 1.5 = 150%, 0.8 = 80%)
-                    child: Container(
+                    child: SizedBox(
                       width: screenWidth * 0.97, // Mengatur lebar (1.1 = 110% dari layar)
                       height: screenHeight * 0.4,
                       child: Image.asset(
@@ -150,7 +150,7 @@ class _SplashScreenState extends State<SplashScreen>
                   offset: Offset(0, -screenHeight * 0.4 * (1 - _topBoxAnimation.value)),
                   child: Transform.scale(
                     scale: 0.8, // Mengatur ukuran PNG (1.0 = normal, 1.5 = 150%, 0.8 = 80%)
-                    child: Container(
+                    child: SizedBox(
                       width: screenWidth * 0.8, // Mengatur lebar (1.1 = 110% dari layar)
                       height: screenHeight * 0.4,
                       child: Image.asset(
@@ -173,7 +173,7 @@ class _SplashScreenState extends State<SplashScreen>
                   opacity: _logoOpacityAnimation.value,
                   child: Transform.scale(
                     scale: _logoScaleAnimation.value,
-                    child: Container(
+                    child: SizedBox(
                       width: 200,
                       height: 200,
                       child: Image.asset(

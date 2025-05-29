@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
 class BerandaPage extends StatelessWidget {
-  const BerandaPage({super.key});
+  final Function(int)? onTabChange; // Tambahkan parameter callback
+  
+  const BerandaPage({super.key, this.onTabChange});
 
   @override
   Widget build(BuildContext context) {
-    return const BerandaContent();
+    return BerandaContent(onTabChange: onTabChange);
   }
 }
 
 // Widget konten beranda dengan implementasi baru
 class BerandaContent extends StatelessWidget {
-  const BerandaContent({super.key});
+  final Function(int)? onTabChange; // Tambahkan parameter callback
+  
+  const BerandaContent({super.key, this.onTabChange});
 
   Widget judulBeranda() {
     return const Padding(
@@ -58,8 +62,16 @@ class BerandaContent extends StatelessWidget {
                 _buildStatusCard(),
                 const SizedBox(height: 16),
                 
-                // On Going Exams
-                _buildOnGoingExamsCard(),
+                // On Going Exams - Tambahkan GestureDetector
+                GestureDetector(
+                  onTap: () {
+                    // Panggil callback untuk pindah ke tab Ujian (index 2)
+                    if (onTabChange != null) {
+                      onTabChange!(2);
+                    }
+                  },
+                  child: _buildOnGoingExamsCard(),
+                ),
               ],
             ),
           ),
@@ -266,6 +278,7 @@ class BerandaContent extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
+                
                 const Icon(
                   Icons.chevron_right,
                   color: Colors.white,

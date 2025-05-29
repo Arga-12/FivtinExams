@@ -108,14 +108,6 @@ class _KisiKisiState extends State<KisiKisi> {
     setState(() {
       _readStatus[subject] = true;
     });
-    
-    // Menampilkan snackbar ketika kisi-kisi dibaca
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Kisi-kisi $subject telah ditandai sebagai dibaca'),
-        duration: const Duration(seconds: 2),
-      ),
-    );
   }
 
   @override

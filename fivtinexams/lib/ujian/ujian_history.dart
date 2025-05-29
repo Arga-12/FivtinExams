@@ -189,7 +189,7 @@ class UjianHistoryPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   const Text(
-                    "20",
+                    "19 / 20",
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -249,7 +249,7 @@ class UjianHistoryPage extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  "Dikerjakan pada 11 Sep 2024, 09:30",
+                  "Dikumpulkan pada 11 Sep 2024, 09:30",
                   style: TextStyle(
                     color: Colors.grey[600],
                     fontSize: 13,
